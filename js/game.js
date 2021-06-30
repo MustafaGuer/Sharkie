@@ -1,6 +1,6 @@
 let canvas; // Die "Leinwand" auf der gezeichnet wird
 let ctx;    // Mit dem Context zeichnet man auf den Canvas (der Pinsel im übertragenen Sinn)
-let character = new Image();
+let character = new MovableObject();
 
 
 function init() {
@@ -11,8 +11,7 @@ function init() {
 
 
 
-    character.src = '../img/1.Sharkie/3.Swim/1.png';
+    console.log('My Character is: ', character);
 
-    ctx.drawImage(character, 20, 20, 50, 150);
 
 }
