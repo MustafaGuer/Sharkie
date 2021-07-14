@@ -31,5 +31,6 @@ class DrawableObject  {
         this.currentImage++;
     }
 
-  
+    
+
 }
