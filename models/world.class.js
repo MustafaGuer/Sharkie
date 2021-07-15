@@ -10,6 +10,10 @@ class World {
     camera_x = 0;
     jellyfish = false;
     throwableObjects = [];
+    coins = [];
+    poisons = [];
+    bubble;
+    specialBubble;
 
     constructor(canvas, keyboard) {
 
@@ -25,30 +29,61 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
-        }, 1000/10);
+            this.checkCollectedObjects(this.level.coins, this.level.poisons);
+        }, 1000 / 5);
+    }
+
+    checkCollectedObjects(coins, poisons) {
+        coins.forEach((coin, index) => {
+            if (this.character.characterIsColliding(coin)) {
+                this.coins.push(coin);
+                coins.splice(index, 1);
+                this.coinBar.setPercentage(this.coins.length);
+            }
+        });
+        poisons.forEach((poison, index) => {
+            if(this.character.characterIsColliding(poison)) {
+                this.poisons.push(poison);
+                poisons.splice(index, 1);
+                this.poisonBar.setPercentage(this.poisons.length);
+            }
+        })
     }
 
     checkThrowObjects() {
-        if(this.keyboard.D) {
-            let bubble = new ThrowableObject(this.character.x+150, this.character.y+105);
-            this.throwableObjects.push(bubble);
+        if (this.keyboard.D) {
+            this.bubble = new ThrowableObject(this.character.x + 150, this.character.y + 105);
+            this.throwableObjects.push(this.bubble);
         }
+        this.checkThrowedCollision();
+    }
+
+    checkThrowedCollision() {
+        this.level.jellyfishes.forEach((jellyfish, index) => {
+            this.throwableObjects.forEach(bubble => {
+                if(bubble.isColliding(jellyfish)) {
+                    this.level.jellyfishes.splice(index, 1);
+                    console.log('COLLISION');
+                }
+            })
+        })
     }
 
     checkCollisions() {
         this.level.jellyfishes.forEach((jellyfish) => {
-            if(this.character.isColliding(jellyfish)) {
+            if (this.character.characterIsColliding(jellyfish)) {
                 this.character.hit();
                 this.jellyfish = true;
             }
         })
 
         this.level.pufferfishes.forEach((pufferfish) => {
-            if(this.character.isColliding(pufferfish)) {
+            if (this.character.characterIsColliding(pufferfish)) {
                 this.character.hit();
                 this.jellyfish = false;
             }
         })
+        this.healthBar.setPercentage(this.character.energy);
     }
 
     setWorld() {
@@ -76,7 +111,7 @@ class World {
         this.addToMap(this.coinBar);
         this.addToMap(this.poisonBar);
         this.ctx.translate(this.camera_x, 0);
-    
+
         this.ctx.translate(-this.camera_x, 0);
 
 
@@ -89,14 +124,14 @@ class World {
     }
 
     addToMap(mo) {
-        if(mo.otherDirection) {
+        if (mo.otherDirection) {
             this.flipImage(mo);
         }
 
         mo.draw(this.ctx);
         mo.drawFrame(this.ctx);
 
-        if(mo.otherDirection) {
+        if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
     }
@@ -111,7 +146,7 @@ class World {
         this.ctx.save();
         this.ctx.translate(mo.width, 0);
         this.ctx.scale(-1, 1);
-        mo.x = mo.x * -1; 
+        mo.x = mo.x * -1;
     }
 
     flipImageBack(mo) {

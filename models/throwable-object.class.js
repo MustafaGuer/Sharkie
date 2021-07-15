@@ -1,10 +1,11 @@
 class ThrowableObject extends MovableObject {
 
 
-    constructor(x, y) {
+    constructor(x, y, otherDirection) {
         super().loadImage('img/1.Sharkie/4.Attack/Bubble trap/Bubble.png');
         // this.loadImage('img/1.Sharkie/4.Attack/Bubble trap/Poisoned Bubble (for whale).png');
 
+        this.otherDirection = otherDirection;
         this.x = x;
         this.y = y;
         this.height = 60;
@@ -17,7 +18,11 @@ class ThrowableObject extends MovableObject {
         this.applyGravity();
 
         setInterval(() => {
-            this.x += 7;
+            if (this.otherDirection) {
+                this.x -= 7;
+            } else {
+                this.x += 7;
+            }
         }, 25);
     }
 

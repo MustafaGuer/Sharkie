@@ -60,17 +60,48 @@ const level1 = new Level(
     ],
 
     [
+        new JellyFish(1000, 200),
         new JellyFish(2000, 250),
-        new JellyFish(500, 200),
         new JellyFish(3000, 200)
     ],
 
     [
-        new Coin(400, 200)
+        new Coin(550, 250),
+        new Coin(850, 250),
+        new Coin(1250, 250),
+        new Coin(2800, 250),
+
+        new Coin(1600, 270),
+        new Coin(1635, 230),
+        new Coin(1680, 205),
+        new Coin(1730, 200),
+        new Coin(1780, 210),
+        new Coin(1825, 235),
+        new Coin(1860, 270),
+
+        new Coin(2200, 270),
+        new Coin(2235, 230),
+        new Coin(2280, 205),
+        new Coin(2330, 200),
+        new Coin(2380, 210),
+        new Coin(2425, 235),
+        new Coin(2460, 270),
+
+        new Coin(3000, 270),
+        new Coin(3035, 230),
+        new Coin(3080, 205),
+        new Coin(3130, 200),
+        new Coin(3180, 210),
+        new Coin(3225, 235),
+        new Coin(3260, 270),
     ],
 
     [
-        new Poison(400, 300)
+        new Poison(750, 310),
+        new Poison(1380, 310),
+        new Poison(1800, 310),
+        new Poison(2800, 310),
+        new Poison(3200, 310),
     ],
 
     [

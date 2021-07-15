@@ -19,9 +19,7 @@ class MovableObject extends DrawableObject {
     isAboveGround() {
         if(this instanceof ThrowableObject) {
             return true;
-        } else {
-            return this.y < 130;
-        }
+        } 
     }
 
 
@@ -42,7 +40,18 @@ class MovableObject extends DrawableObject {
         return timepassed < 1;
     }
 
+    isDead() {
+        return this.energy == 0;
+    }
+
     isColliding(mo) {
+        return this.x + this.width > mo.x &&
+            this.y + this.height > mo.y &&
+            this.x < mo.x &&
+            this.y < mo.y + mo.height
+    }
+
+    characterIsColliding(mo) {
         return this.x + this.width - 35 > mo.x &&
             this.y + this.height -50 > mo.y &&
             this.x - 70  < mo.x &&
