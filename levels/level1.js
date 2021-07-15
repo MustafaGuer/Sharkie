@@ -51,5 +51,23 @@ const level1 = new Level(
         new BackgroundObject('img/3. Background/Layers/3.Fondo 1/L2.png', 720 * 7),
         new BackgroundObject('img/3. Background/Layers/2. Floor/L2.png', 720 * 7),
         new BackgroundObject('img/3. Background/Layers/1. Light/2.png', 720 * 7)
+    ],
+
+    [
+        new PufferFish(1000, 230),
+        new PufferFish(1500, 50),
+        new PufferFish(2500, 280),
+        new JellyFish(2000, 250),
+        new JellyFish(500, 200),
+        new JellyFish(3000, 200),
+        new MobyDick(4000, 50)
+    ],
+
+    [
+        new Coin(400, 200)
+    ],
+
+    [
+        new Poison(400, 300)
     ]
 )

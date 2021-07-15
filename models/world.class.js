@@ -3,6 +3,9 @@ class World {
     level = level1;
     ctx;
     character = new Character();
+    healthBar = new HealthBar();
+    coinBar = new CoinBar();
+    poisonBar = new PoisonBar();
     keyboard;
     camera_x = 0;
 
@@ -25,7 +28,17 @@ class World {
         this.ctx.translate(this.camera_x, 0);
 
         this.addObjectsToMap(this.level.backgroundObjects);
+        this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.level.poisons);
         this.addToMap(this.character);
+
+        // ------SPACE FOR FIXED OBJECTS------
+        this.ctx.translate(-this.camera_x, 0);
+        this.addToMap(this.healthBar);
+        this.addToMap(this.coinBar);
+        this.addToMap(this.poisonBar);
+        this.ctx.translate(this.camera_x, 0);
     
         this.ctx.translate(-this.camera_x, 0);
 
