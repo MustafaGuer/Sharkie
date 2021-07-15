@@ -6,11 +6,10 @@ class Character extends MovableObject {
     speed = 7;
     world;
     idleTime = 0;
+    energy = 100;
 
     constructor() {
         super().loadImage('img/1.Sharkie/1.IDLE/1.png');
-        this.loadImage('img/1.Sharkie/4.Attack/Bubble trap/Bubble.png');
-        this.loadImage('img/1.Sharkie/4.Attack/Bubble trap/Poisoned Bubble (for whale).png');
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_LONG_IDLE_START);
         this.loadImages(this.IMAGES_LONG_IDLE);
@@ -51,34 +50,39 @@ class Character extends MovableObject {
                 this.otherDirection = true;
                 this.resetIdleTime();
             }
-            if (this.world.keyboard.UP && this.y > -100) {
+            if (this.world.keyboard.UP && this.y > -80) {
                 this.moveUp();
                 this.resetIdleTime();
             }
-            if (this.world.keyboard.DOWN && this.y < 270) {
+            if (this.world.keyboard.DOWN && this.y < 190) {
                 this.moveDown();
                 this.resetIdleTime();
             }
-            
+
 
             this.world.camera_x = -this.x + 80;
         }, 1000 / 60);
 
         setInterval(() => {
-            if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
+            if (this.isHurt() && this.world.jellyfish) {
+                this.playAnimation(this.IMAGES_ELECTRIC_SHOCK);
+            } else if (this.isHurt()) {
+                this.playAnimation(this.IMAGES_POISONED);
+            }
+            else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
                 this.playAnimation(this.IMAGES_SWIM);
             }
         }, 1000 / 10);
 
         setInterval(() => {
             if (this.world.keyboard.D) {
-                        this.playAnimation(this.IMAGES_BUBBLE_TRAP);
-                        this.resetIdleTime();
+                this.playAnimation(this.IMAGES_BUBBLE_TRAP);
+                this.resetIdleTime();
             }
             if (this.world.keyboard.SPACE) {
                 this.playAnimation(this.IMAGES_FIN_SLAP);
                 this.resetIdleTime();
-        }
+            }
         }, 1000 / 25);
     }
 

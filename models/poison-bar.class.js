@@ -1,7 +1,6 @@
 class PoisonBar extends StatusBar {
 
-    y = 60;
-
+    x = 400;
 
     constructor() {
         super().loadImage('img/4. Marcadores/orange/0_ copia.png');

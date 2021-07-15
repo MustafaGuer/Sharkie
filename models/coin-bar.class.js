@@ -1,8 +1,7 @@
 class CoinBar extends StatusBar {
+ 
+    x = 200;
     
-    y = 30;
-
-
     constructor() {
         super().loadImage('img/4. Marcadores/orange/0_  copia 2.png');
         this.loadImages(this.IMAGES);

@@ -4,11 +4,16 @@ class Level {
     backgroundObjects;
     coins;
     poisons;
+    pufferfishes;
+    jellyfishes;
+    floor;
 
-    constructor(backgroundObjects, enemies, coins, poisons) {
+    constructor(backgroundObjects, pufferfishes, jellyfishes, coins, poisons, floor) {
         this.backgroundObjects = backgroundObjects;
-        this.enemies = enemies;
+        this.pufferfishes = pufferfishes;
+        this.jellyfishes = jellyfishes;
         this.coins = coins;
         this.poisons = poisons;
+        this.floor = floor;
     }
 }

@@ -1,7 +1,7 @@
 class Poison extends DrawableObject {
 
-    width = 100;
-    height = 130;
+    width = 80;
+    height = 100;
 
     constructor(x, y) {
         super().loadImage('img/4. Marcadores/Posión/Animada/1.png');

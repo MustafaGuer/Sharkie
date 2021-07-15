@@ -5,6 +5,7 @@ class DrawableObject  {
     width = 100;
     height = 150;
     imageCache = {};
+    percentage = 100;
     currentImage = 0;
 
     loadImage(path) {
@@ -12,8 +13,8 @@ class DrawableObject  {
         this.img.src = path;
     }
 
-    loadImages(images) {
-        images.forEach((path) => {
+    loadImages(arr) {
+        arr.forEach((path) => {
             let img = new Image();
             img.src = path;
             this.imageCache[path] = img;
@@ -22,6 +23,16 @@ class DrawableObject  {
 
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    }
+    
+    drawFrame(ctx) {
+        if(this instanceof Character || this instanceof JellyFish || this instanceof PufferFish || this instanceof MobyDick) {
+            ctx.beginPath();
+            ctx.lineWidth = '5';
+            ctx.strokeStyle = 'blue';
+            ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.stroke();
+        }
     }
 
     playAnimation(images) {

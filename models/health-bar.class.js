@@ -1,7 +1,5 @@
 class HealthBar extends StatusBar {
 
-    y = 0;
-
 
     constructor() {
         super().loadImage('img/4. Marcadores/orange/0_  copia.png');

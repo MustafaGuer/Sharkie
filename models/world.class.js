@@ -8,6 +8,8 @@ class World {
     poisonBar = new PoisonBar();
     keyboard;
     camera_x = 0;
+    jellyfish = false;
+    throwableObjects = [];
 
     constructor(canvas, keyboard) {
 
@@ -16,6 +18,37 @@ class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
+        this.run();
+    }
+
+    run() {
+        setInterval(() => {
+            this.checkCollisions();
+            this.checkThrowObjects();
+        }, 1000/10);
+    }
+
+    checkThrowObjects() {
+        if(this.keyboard.D) {
+            let bubble = new ThrowableObject(this.character.x+150, this.character.y+105);
+            this.throwableObjects.push(bubble);
+        }
+    }
+
+    checkCollisions() {
+        this.level.jellyfishes.forEach((jellyfish) => {
+            if(this.character.isColliding(jellyfish)) {
+                this.character.hit();
+                this.jellyfish = true;
+            }
+        })
+
+        this.level.pufferfishes.forEach((pufferfish) => {
+            if(this.character.isColliding(pufferfish)) {
+                this.character.hit();
+                this.jellyfish = false;
+            }
+        })
     }
 
     setWorld() {
@@ -28,10 +61,14 @@ class World {
         this.ctx.translate(this.camera_x, 0);
 
         this.addObjectsToMap(this.level.backgroundObjects);
-        this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.level.pufferfishes);
+        this.addObjectsToMap(this.level.jellyfishes);
+        // this.addToMap(this.level.mobydick);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.poisons);
         this.addToMap(this.character);
+        this.addObjectsToMap(this.level.floor);
+        this.addObjectsToMap(this.throwableObjects);
 
         // ------SPACE FOR FIXED OBJECTS------
         this.ctx.translate(-this.camera_x, 0);
@@ -57,6 +94,7 @@ class World {
         }
 
         mo.draw(this.ctx);
+        mo.drawFrame(this.ctx);
 
         if(mo.otherDirection) {
             this.flipImageBack(mo);
