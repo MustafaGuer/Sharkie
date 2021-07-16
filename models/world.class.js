@@ -3,6 +3,7 @@ class World {
     level = level1;
     ctx;
     character = new Character();
+    mobyDick = new MobyDick();
     healthBar = new HealthBar();
     coinBar = new CoinBar();
     poisonBar = new PoisonBar();
@@ -39,6 +40,13 @@ class World {
         }, 1000 / 10);
     }
 
+    checkCharacterCheckpoint() {
+        if (this.character.x > 3800) {
+
+            this.intro = true;
+        }
+    }
+
     checkCollectedObjects(coins, poisons) {
         coins.forEach((coin, index) => {
             if (this.character.characterIsColliding(coin)) {
@@ -69,10 +77,14 @@ class World {
 
     checkThrowedCollision() {
         this.level.jellyfishes.forEach((jellyfish, index) => {
-            this.throwableObjects.forEach(bubble => {
+            this.throwableObjects.forEach((bubble, number) => {
                 if (bubble.isColliding(jellyfish)) {
                     this.level.jellyfishes[index].hit();
-                    this.level.jellyfishes.splice(index, 1);
+                    this.throwableObjects.splice(number, 1);
+                    setTimeout(() => {
+                        this.level.jellyfishes.splice(index, 1);
+                    }, 400);
+
                     this.dead = true;
                 }
             })
@@ -80,25 +92,43 @@ class World {
     }
 
     checkThrowPoisonBubble() {
-        if(this.keyboard.F && !this.character.isDead() && !this.character.otherDirection && this.poisons.length > 0) {
+        if (this.keyboard.F && !this.character.isDead() && !this.character.otherDirection && this.poisons.length > 0) {
             this.poisonBubble = new PoisonBubble(this.character.x + 150, this.character.y + 105, this.character.otherDirection);
             this.throwablePoisonBubbles.push(this.poisonBubble);
             this.poisons.splice(0, 1);
             this.poisonBar.setPercentage(this.poisons.length);
         } else if (this.keyboard.F && !this.character.isDead() && this.character.otherDirection && this.poisons.length > 0) {
-            this.poisonBubble = new PoisonBubble(this.character.x -40, this.character.y +105, this.character.otherDirection);
+            this.poisonBubble = new PoisonBubble(this.character.x - 40, this.character.y + 105, this.character.otherDirection);
             this.throwablePoisonBubbles.push(this.poisonBubble);
             this.poisons.splice(0, 1);
             this.poisonBar.setPercentage(this.poisons.length);
         }
+        this.checkCollisionWithPoisonBubble();
+    }
+
+    checkCollisionWithPoisonBubble() {
+        this.throwablePoisonBubbles.forEach(poisonBubble => {
+            if (poisonBubble.isColliding(this.mobyDick)) {
+                this.mobyDick.hit();
+            }
+        })
     }
 
     checkSlapEnemy() {
         this.level.pufferfishes.forEach((pufferfish, index) => {
             if (this.character.isColliding(pufferfish) && this.keyboard.SPACE && !this.character.isDead()) {
-                this.level.pufferfishes.splice(index, 1);
+                this.level.pufferfishes[index].hit();
+                setTimeout(() => {
+                    this.level.pufferfishes.splice(index, 1);
+                }, 400);
             }
         })
+    }
+
+    checkSlapMobyDick() {
+        if (this.character.isColliding(this.mobyDick) && this.keyboard.SPACE && !this.character.isDead()) {
+            this.mobyDick.hit();
+        }
     }
 
     checkCollisions() {
@@ -120,6 +150,7 @@ class World {
 
     setWorld() {
         this.character.world = this;
+        // this.mobyDick.world = this;
     }
 
     draw() {
@@ -130,10 +161,10 @@ class World {
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.pufferfishes);
         this.addObjectsToMap(this.level.jellyfishes);
-        // this.addToMap(this.level.mobydick);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.poisons);
         this.addToMap(this.character);
+        this.addToMap(this.mobyDick);
         this.addObjectsToMap(this.level.floor);
         this.addObjectsToMap(this.throwableObjects);
         this.addObjectsToMap(this.throwablePoisonBubbles);
@@ -146,8 +177,6 @@ class World {
         this.ctx.translate(this.camera_x, 0);
 
         this.ctx.translate(-this.camera_x, 0);
-
-
 
 
         let self = this;

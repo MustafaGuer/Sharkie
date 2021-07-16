@@ -4,15 +4,17 @@ class PufferFish extends MovableObject {
     height = 80;
     speed = 1;
 
+
     constructor(x, y) {
         super().loadImage('img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/2.swim1.png');
         this.loadImages(this.IMAGES_SWIM);
         this.loadImages(this.IMAGES_TRANSITION);
         this.loadImages(this.IMAGES_BUBBLESWIM);
-        this.loadImages(this.IMAGES_DIE);
+        this.loadImages(this.IMAGES_DEAD);
 
         this.x = x;
         this.y = y;
+        this.energy = 5;
         this.animate();
     }
 
@@ -31,12 +33,14 @@ class PufferFish extends MovableObject {
         }, 50);
 
         setInterval(() => {
-            if (!this.otherDirection) {
+            if (this.isDead()) {
+                this.playAnimation(this.IMAGES_DEAD);
+            } else if (!this.otherDirection && !this.isDead()) {
                 this.playAnimation(this.IMAGES_BUBBLESWIM);
             } else {
                 this.playAnimation(this.IMAGES_SWIM);
             }
-        }, 1000 / 25);
+        }, 1000 / 5);
     }
 
     IMAGES_SWIM = [
@@ -63,7 +67,7 @@ class PufferFish extends MovableObject {
         'img/2.Enemy/1.Puffer fish (3 color options)/3.Bubbleeswim/2.bubbleswim5.png'
     ];
 
-    IMAGES_DIE = [
+    IMAGES_DEAD = [
         'img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/2.png',
         'img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/2.3.png',
         'img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/2.2.png'
