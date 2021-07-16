@@ -4,6 +4,7 @@ class World {
     ctx;
     character = new Character();
     mobyDick = new MobyDick();
+    mobyDickHealthBar = new MobyDickHealthBar(this.mobyDick.x, this.mobyDick.y, this.mobyDick.width);
     healthBar = new HealthBar();
     coinBar = new CoinBar();
     poisonBar = new PoisonBar();
@@ -14,10 +15,6 @@ class World {
     throwablePoisonBubbles = [];
     coins = [];
     poisons = [];
-    bubble;
-    poisonBubble;
-    slap;
-
 
 
     constructor(canvas, keyboard) {
@@ -110,6 +107,7 @@ class World {
         this.throwablePoisonBubbles.forEach(poisonBubble => {
             if (poisonBubble.isColliding(this.mobyDick)) {
                 this.mobyDick.hit();
+                this.mobyDickHealthBar.setPercentage(this.mobyDick.energy);
             }
         })
     }
@@ -145,6 +143,10 @@ class World {
                 this.jellyfish = false;
             }
         })
+
+        if(this.character.characterIsColliding(this.mobyDick) && !this.mobyDick.isDead()) {
+            this.character.hit();
+        }
         this.healthBar.setPercentage(this.character.energy);
     }
 
@@ -166,6 +168,7 @@ class World {
         this.addToMap(this.character);
         this.addToMap(this.mobyDick);
         this.addObjectsToMap(this.level.floor);
+        this.addToMap(this.mobyDickHealthBar);
         this.addObjectsToMap(this.throwableObjects);
         this.addObjectsToMap(this.throwablePoisonBubbles);
 

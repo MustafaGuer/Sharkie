@@ -25,7 +25,7 @@ class MobyDick extends MovableObject {
                 this.playAnimation(this.IMAGES_DEAD);
                 setTimeout(() => {
                     clearInterval(animationsInterval);
-                }, 800);
+                }, 500);
             } else if (this.isHurt() && !this.isDead()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if(!this.isDead()) {
