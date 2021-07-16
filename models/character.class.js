@@ -97,7 +97,7 @@ class Character extends MovableObject {
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_POISONED);
             }
-        }, 1000 / 10);
+        }, 150);
     }
 
     moveAnimate() {

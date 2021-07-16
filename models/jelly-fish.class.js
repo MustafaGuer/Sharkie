@@ -7,6 +7,7 @@ class JellyFish extends MovableObject {
 
         this.x = x;
         this.y = y;
+        this.energy = 5;
 
         this.animate();
     }
@@ -17,7 +18,7 @@ class JellyFish extends MovableObject {
         }, 3000);
 
         setInterval(() => {
-            if(this.otherDirection) {
+            if (this.otherDirection) {
                 this.y += this.speed;
             } else {
                 this.y -= this.speed;
@@ -25,7 +26,11 @@ class JellyFish extends MovableObject {
         }, 50);
 
         setInterval(() => {
-            this.playAnimation(this.IMAGES_REGULAR);
+            if (this.isDead()) {
+                this.playAnimation(this.IMAGES_DEAD);
+            } else {
+                this.playAnimation(this.IMAGES_REGULAR);
+            }
         }, 100);
     }
 

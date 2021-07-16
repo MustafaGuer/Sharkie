@@ -23,7 +23,7 @@ class PufferFish extends MovableObject {
         }, 10000);
 
         setInterval(() => {
-            if(this.otherDirection) {
+            if (this.otherDirection) {
                 this.x += this.speed;
             } else {
                 this.x -= this.speed;
@@ -31,7 +31,11 @@ class PufferFish extends MovableObject {
         }, 50);
 
         setInterval(() => {
-            this.playAnimation(this.IMAGES_SWIM);
+            if (!this.otherDirection) {
+                this.playAnimation(this.IMAGES_BUBBLESWIM);
+            } else {
+                this.playAnimation(this.IMAGES_SWIM);
+            }
         }, 1000 / 25);
     }
 

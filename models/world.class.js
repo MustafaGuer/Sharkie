@@ -10,10 +10,14 @@ class World {
     camera_x = 0;
     jellyfish = false;
     throwableObjects = [];
+    throwablePoisonBubbles = [];
     coins = [];
     poisons = [];
     bubble;
-    specialBubble;
+    poisonBubble;
+    slap;
+
+
 
     constructor(canvas, keyboard) {
 
@@ -30,7 +34,9 @@ class World {
             this.checkCollisions();
             this.checkThrowObjects();
             this.checkCollectedObjects(this.level.coins, this.level.poisons);
-        }, 1000 / 5);
+            this.checkSlapEnemy();
+            this.checkThrowPoisonBubble();
+        }, 1000 / 10);
     }
 
     checkCollectedObjects(coins, poisons) {
@@ -42,7 +48,7 @@ class World {
             }
         });
         poisons.forEach((poison, index) => {
-            if(this.character.characterIsColliding(poison)) {
+            if (this.character.characterIsColliding(poison)) {
                 this.poisons.push(poison);
                 poisons.splice(index, 1);
                 this.poisonBar.setPercentage(this.poisons.length);
@@ -51,8 +57,11 @@ class World {
     }
 
     checkThrowObjects() {
-        if (this.keyboard.D) {
-            this.bubble = new ThrowableObject(this.character.x + 150, this.character.y + 105);
+        if (this.keyboard.D && !this.character.isDead() && !this.character.otherDirection) {
+            this.bubble = new ThrowableObject(this.character.x + 150, this.character.y + 105, this.character.otherDirection);
+            this.throwableObjects.push(this.bubble);
+        } else if (this.keyboard.D && !this.character.isDead() && this.character.otherDirection) {
+            this.bubble = new ThrowableObject(this.character.x - 40, this.character.y + 105, this.character.otherDirection);
             this.throwableObjects.push(this.bubble);
         }
         this.checkThrowedCollision();
@@ -61,11 +70,34 @@ class World {
     checkThrowedCollision() {
         this.level.jellyfishes.forEach((jellyfish, index) => {
             this.throwableObjects.forEach(bubble => {
-                if(bubble.isColliding(jellyfish)) {
+                if (bubble.isColliding(jellyfish)) {
+                    this.level.jellyfishes[index].hit();
                     this.level.jellyfishes.splice(index, 1);
-                    console.log('COLLISION');
+                    this.dead = true;
                 }
             })
+        })
+    }
+
+    checkThrowPoisonBubble() {
+        if(this.keyboard.F && !this.character.isDead() && !this.character.otherDirection && this.poisons.length > 0) {
+            this.poisonBubble = new PoisonBubble(this.character.x + 150, this.character.y + 105, this.character.otherDirection);
+            this.throwablePoisonBubbles.push(this.poisonBubble);
+            this.poisons.splice(0, 1);
+            this.poisonBar.setPercentage(this.poisons.length);
+        } else if (this.keyboard.F && !this.character.isDead() && this.character.otherDirection && this.poisons.length > 0) {
+            this.poisonBubble = new PoisonBubble(this.character.x -40, this.character.y +105, this.character.otherDirection);
+            this.throwablePoisonBubbles.push(this.poisonBubble);
+            this.poisons.splice(0, 1);
+            this.poisonBar.setPercentage(this.poisons.length);
+        }
+    }
+
+    checkSlapEnemy() {
+        this.level.pufferfishes.forEach((pufferfish, index) => {
+            if (this.character.isColliding(pufferfish) && this.keyboard.SPACE && !this.character.isDead()) {
+                this.level.pufferfishes.splice(index, 1);
+            }
         })
     }
 
@@ -104,6 +136,7 @@ class World {
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.floor);
         this.addObjectsToMap(this.throwableObjects);
+        this.addObjectsToMap(this.throwablePoisonBubbles);
 
         // ------SPACE FOR FIXED OBJECTS------
         this.ctx.translate(-this.camera_x, 0);

@@ -36,6 +36,9 @@ window.addEventListener('keydown', (e) => {
     if(e.key == 'd') {
         keyboard.D = true;
     }
+    if(e.key == 'f') {
+        keyboard.F = true;
+    }
 })
 
 window.addEventListener('keyup', (e) => {
@@ -56,5 +59,8 @@ window.addEventListener('keyup', (e) => {
     }
     if(e.key == 'd') {
         keyboard.D = false;
+    }
+    if(e.key == 'f') {
+        keyboard.F = false;
     }
 })
