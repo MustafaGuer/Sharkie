@@ -60,8 +60,8 @@ const level1 = new Level(
     ],
 
     [
-        new JellyFish(1000, 200),
-        new JellyFish(2000, 250),
+        new JellyFish(1150, 250),
+        new JellyFish(2300, 250),
         new JellyFish(3000, 200)
     ],
 
@@ -69,15 +69,15 @@ const level1 = new Level(
         new Coin(550, 250),
         new Coin(850, 250),
         new Coin(1250, 250),
-        new Coin(2800, 250),
+        new Coin(2850, 100),
 
-        new Coin(1600, 270),
-        new Coin(1635, 230),
-        new Coin(1680, 205),
-        new Coin(1730, 200),
-        new Coin(1780, 210),
-        new Coin(1825, 235),
-        new Coin(1860, 270),
+        new Coin(1400, 270),
+        new Coin(1435, 230),
+        new Coin(1480, 205),
+        new Coin(1530, 200),
+        new Coin(1580, 210),
+        new Coin(1625, 235),
+        new Coin(1660, 270),
 
         new Coin(2200, 270),
         new Coin(2235, 230),
@@ -97,10 +97,10 @@ const level1 = new Level(
     ],
 
     [
-        new Poison(750, 310),
+        new Poison(430, 300),
         new Poison(1380, 310),
-        new Poison(1800, 310),
-        new Poison(2800, 310),
+        new Poison(2600, 310),
+        new Poison(2200, 310),
         new Poison(3200, 310),
     ],
 
@@ -114,5 +114,14 @@ const level1 = new Level(
         new Floor('img/3. Background/Layers/2. Floor/L2.png', 720 * 5),
         new Floor('img/3. Background/Layers/2. Floor/L1.png', 720 * 6),
         new Floor('img/3. Background/Layers/2. Floor/L2.png', 720 * 7)
+    ],
+
+    [
+        new Barrier(500, 480)
+    ],
+
+    [
+        new SeparateBarrier('img/3. Background/Barrier/2.png', 1700, 200, 450, 250),
+        new SeparateBarrier('img/3. Background/Barrier/3.png', 2800, 180, 150, 300)
     ]
 )

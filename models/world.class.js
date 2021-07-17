@@ -15,7 +15,7 @@ class World {
     throwablePoisonBubbles = [];
     coins = [];
     poisons = [];
-
+    
 
     constructor(canvas, keyboard) {
 
@@ -33,14 +33,60 @@ class World {
             this.checkThrowObjects();
             this.checkCollectedObjects(this.level.coins, this.level.poisons);
             this.checkSlapEnemy();
+            this.checkSlapMobyDick();
             this.checkThrowPoisonBubble();
+            this.checkDistanceToEnemy();
+            this.checkMobyDickCollisionWithChar();
+            this.checkCollisionWithBarrier();
         }, 1000 / 10);
     }
 
-    checkCharacterCheckpoint() {
-        if (this.character.x > 3800) {
+    checkCollisionWithBarrier() {
+        this.level.separateBarrier.forEach(b => {
+            if(this.character.characterIsColliding(b)) {
+                this.character.hitBarrier();
+            } 
+        });
+    }
 
-            this.intro = true;
+    checkDistanceToEnemy() {
+        this.level.jellyfishes.forEach((mo, index) => {
+            if (this.isNear(mo, 200)) {
+                this.level.jellyfishes[index].jellyfishDanger = true;
+            } else {
+                this.level.jellyfishes[index].jellyfishDanger = false;
+            }
+        });
+
+        this.level.pufferfishes.forEach((mo, index) => {
+            if (this.isNear(mo, 150)) {
+                this.level.pufferfishes[index].pufferfishTransition = false;
+                this.level.pufferfishes[index].pufferfishDanger = true;
+            } else if (this.isNear(mo, 200)) {
+                this.level.pufferfishes[index].pufferfishTransition = true;
+            } else {
+                this.level.pufferfishes[index].pufferfishDanger = false;
+                this.level.pufferfishes[index].pufferfishTransition = false;
+            }
+        })
+
+        if (this.isNear(this.mobyDick, 350)) {
+            this.mobyDick.intro = true;
+        } 
+        if (this.isNear(this.mobyDick, 300)) {
+            this.mobyDick.x -= 5;
+        }
+    }
+
+    isNear(mo, distance) {
+        return this.character.x + this.character.width - 35 > (mo.x - distance) && this.character.x - 70 < (mo.x + distance)
+    }
+
+    checkMobyDickCollisionWithChar() {
+        if(this.isNear(this.mobyDick, 100)) {
+            this.mobyDick.attack = true;
+        } else {
+            this.mobyDick.attack = false;
         }
     }
 
@@ -118,7 +164,7 @@ class World {
                 this.level.pufferfishes[index].hit();
                 setTimeout(() => {
                     this.level.pufferfishes.splice(index, 1);
-                }, 400);
+                }, 1000);
             }
         })
     }
@@ -144,7 +190,7 @@ class World {
             }
         })
 
-        if(this.character.characterIsColliding(this.mobyDick) && !this.mobyDick.isDead()) {
+        if (this.character.characterIsColliding(this.mobyDick) && !this.mobyDick.isDead()) {
             this.character.hit();
         }
         this.healthBar.setPercentage(this.character.energy);
@@ -152,7 +198,6 @@ class World {
 
     setWorld() {
         this.character.world = this;
-        // this.mobyDick.world = this;
     }
 
     draw() {
@@ -168,15 +213,19 @@ class World {
         this.addToMap(this.character);
         this.addToMap(this.mobyDick);
         this.addObjectsToMap(this.level.floor);
-        this.addToMap(this.mobyDickHealthBar);
         this.addObjectsToMap(this.throwableObjects);
         this.addObjectsToMap(this.throwablePoisonBubbles);
+        this.addObjectsToMap(this.level.barrier);
+        this.addObjectsToMap(this.level.separateBarrier);
+        this.addToMap(this.mobyDickHealthBar);        
 
         // ------SPACE FOR FIXED OBJECTS------
         this.ctx.translate(-this.camera_x, 0);
+        
         this.addToMap(this.healthBar);
         this.addToMap(this.coinBar);
         this.addToMap(this.poisonBar);
+        
         this.ctx.translate(this.camera_x, 0);
 
         this.ctx.translate(-this.camera_x, 0);

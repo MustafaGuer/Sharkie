@@ -4,6 +4,7 @@ class MobyDick extends MovableObject {
     height = 350;
     energy = 20;
     intro = false;
+    attack = false;
 
     constructor() {
         super().loadImage('img/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2.png');
@@ -21,18 +22,31 @@ class MobyDick extends MovableObject {
 
     animateIntro() {
         let animationsInterval = setInterval(() => {
-            if (this.isDead()) {
-                this.playAnimation(this.IMAGES_DEAD);
+            if (this.intro) {
+                this.playAnimation(this.IMAGES_INTRO);
+
                 setTimeout(() => {
                     clearInterval(animationsInterval);
                 }, 500);
+            } 
+        }, 1000 / 7);
+
+        let animation = setInterval(() => {
+            if (this.isDead()) {
+                this.playAnimation(this.IMAGES_DEAD);
+                setTimeout(() => {
+                    clearInterval(animation);
+                }, 500);
             } else if (this.isHurt() && !this.isDead()) {
                 this.playAnimation(this.IMAGES_HURT);
-            } else if(!this.isDead()) {
+            } else if(this.attack) {
+                this.playAnimation(this.IMAGES_ATTACK);
+            } else if (!this.isDead()) {
                 this.playAnimation(this.IMAGES_FLOATING);
             }
         }, 1000 / 7);
     }
+
 
     IMAGES_INTRO = [
         'img/2.Enemy/3 Final Enemy/1.Introduce/1.png',

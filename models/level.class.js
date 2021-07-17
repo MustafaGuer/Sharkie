@@ -6,13 +6,17 @@ class Level {
     pufferfishes;
     jellyfishes;
     floor;
+    barrier;
+    separateBarrier;
 
-    constructor(backgroundObjects, pufferfishes, jellyfishes, coins, poisons, floor) {
+    constructor(backgroundObjects, pufferfishes, jellyfishes, coins, poisons, floor, barrier, separateBarrier) {
         this.backgroundObjects = backgroundObjects;
         this.pufferfishes = pufferfishes;
         this.jellyfishes = jellyfishes;
         this.coins = coins;
         this.poisons = poisons;
         this.floor = floor;
+        this.barrier = barrier;
+        this.separateBarrier = separateBarrier;
     }
 }

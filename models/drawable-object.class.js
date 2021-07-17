@@ -26,7 +26,7 @@ class DrawableObject  {
     }
     
     drawFrame(ctx) {
-        if(this instanceof Character || this instanceof JellyFish || this instanceof PufferFish || this instanceof MobyDick) {
+        if(this instanceof Character || this instanceof MobyDick || this instanceof Barrier || this instanceof SeparateBarrier) {
             ctx.beginPath();
             ctx.lineWidth = '5';
             ctx.strokeStyle = 'yellow';
