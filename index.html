@@ -25,7 +25,7 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
-    
+
     <title>Sharkie</title>
 
     <!-- MODELS -->
@@ -49,10 +49,12 @@
     <script src="models/throwable-object.class.js"></script>
     <script src="models/poison-bubble-object.class.js"></script>
     <script src="models/world.class.js"></script>
+    <script src="models/game-over.class.js"></script>
+    <script src="models/win-game.class.js"></script>
     <script src="models/keyboard.class.js"></script>
     <script src="models/level.class.js"></script>
     <script src="levels/level1.js"></script>
-    
+
 
     <!-- JAVASCRIPT -->
     <script src="./js/game.js"></script>
@@ -63,10 +65,15 @@
 
     <h1>Sharkie</h1>
 
-    <canvas id="canvas" width="720" height="480">
+    <div id="startScreen">
+        <div id="startButtonBox"><img onclick="startGame()" class="btn startBtn" src="img/6.Botones/Start/3.png"></div>
+    </div>
+    <div id="canvasBox">
+        <canvas id="canvas" width="720" height="480"></canvas>
+        <img id="tryAgainBtn" class="btn " onclick="reset()" src="img/6.Botones/Try again/Recurso 15.png">
+    </div>
+    <img onclick="fullScreen()" class="btn fullScreenBtn" src="img/6.Botones/Full Screen/Mesa de trabajo 6.png">
 
-    </canvas>
-    <img onclick="fullScreen()" class="fullScreenBtn" src="img/6.Botones/Full Screen/Mesa de trabajo 6.png">
 
 </body>
 

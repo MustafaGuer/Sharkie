@@ -13,16 +13,46 @@ body {
     background-image: url('img/3. Background/Legacy/Dark/1.png');
 }
 
+.d-none {
+    display: none !important;
+}
+
 h1 {
     font-size: 3em;
+}
+
+#canvasBox {
+    position: relative;
 }
 
 canvas {
     background-color: black;
 }
 
-.fullScreenBtn {
-    width: 200px;
+.btn {
     cursor: pointer;
+    width: 200px;
+}
+
+.startBtn {
+    margin-top: 200px;
+}
+
+#tryAgainBtn {
+    position: absolute;
+    bottom: 20px;
+}
+
+.fullScreenBtn {
     margin-top: 32.160px;
+}
+
+#startScreen {
+    width: 720px;
+    height: 480px;
+    background: url('img/3. Background/Mesa de trabajo 1.png');
+    background-size: contain;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

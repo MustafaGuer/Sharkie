@@ -15,6 +15,10 @@ class World {
     throwablePoisonBubbles = [];
     coins = [];
     poisons = [];
+    gameOver = new GameOver();
+    winScreen = new WinGame();
+    loose = false;
+    win = false;
     
 
     constructor(canvas, keyboard) {
@@ -38,7 +42,17 @@ class World {
             this.checkDistanceToEnemy();
             this.checkMobyDickCollisionWithChar();
             this.checkCollisionWithBarrier();
+            this.checkIfWinOrLoose();
         }, 1000 / 10);
+    }
+
+    checkIfWinOrLoose() {
+        if(this.character.isDead()) {
+            this.loose = true;
+        }
+        if(this.mobyDick.isDead()) {
+            this.win = true;
+        }
     }
 
     checkCollisionWithBarrier() {
@@ -221,6 +235,15 @@ class World {
 
         // ------SPACE FOR FIXED OBJECTS------
         this.ctx.translate(-this.camera_x, 0);
+
+        if(this.loose) {
+            this.addGameOverToMap(this.gameOver);
+            show('tryAgainBtn');
+        }
+
+        if(this.win) {
+            this.addGameOverToMap(this.winScreen);
+        }       
         
         this.addToMap(this.healthBar);
         this.addToMap(this.coinBar);
@@ -243,11 +266,15 @@ class World {
         }
 
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
+        // mo.drawFrame(this.ctx);
 
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
+    }
+
+    addGameOverToMap(object) {
+        object.draw(this.ctx);
     }
 
     addObjectsToMap(objects) {

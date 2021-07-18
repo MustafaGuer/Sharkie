@@ -1,10 +1,25 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let startscreen;
 
 function init() {
-    canvas = document.getElementById('canvas'); 
+    hide('canvas');
+}
+
+function startGame() {
+    show('canvas');
+    hide('startScreen');
+    canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
+}
+
+function hide(id) {
+    document.getElementById(id).classList.add('d-none');
+}
+
+function show(id) {
+    document.getElementById(id).classList.remove('d-none');
 }
 
 function fullScreen() {
@@ -39,6 +54,9 @@ window.addEventListener('keydown', (e) => {
     if(e.key == 'f') {
         keyboard.F = true;
     }
+    if(e.key == 'Enter') {
+        keyboard.ENTER = true;
+    }
 })
 
 window.addEventListener('keyup', (e) => {
@@ -62,5 +80,8 @@ window.addEventListener('keyup', (e) => {
     }
     if(e.key == 'f') {
         keyboard.F = false;
+    }
+    if(e.eky == 'Enter') {
+        keyboard.ENTER = false;
     }
 })
