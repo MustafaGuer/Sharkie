@@ -26,7 +26,7 @@ class DrawableObject  {
     }
     
     drawFrame(ctx) {
-        if(this instanceof Character || this instanceof SeparateBarrier) {
+        if(this instanceof Character || this instanceof Barrier) {
             ctx.beginPath();
             ctx.lineWidth = '5';
             ctx.strokeStyle = 'yellow';

@@ -9,9 +9,9 @@ let background_music = new Audio('../audio/bgmChill.mp3');
 function init() {
     hide('canvas');
     hide('tryAgainBtn');
-    background_music.play();
-    background_music.volume = 0.4;
-    background_music.loop = true;
+    // background_music.play();
+    // background_music.volume = 0.4;
+    // background_music.loop = true;
 }
 
 function startGame() {

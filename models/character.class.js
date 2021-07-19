@@ -13,6 +13,7 @@ class Character extends MovableObject {
     swim_sound = new Audio('../audio/swim.mp3');
     slap_sound = new Audio('../audio/slap.mp3');
     bubble_shoot = new Audio('../audio/bubbleShoot.mp3');
+    collision = false;
 
 
     constructor() {
@@ -109,27 +110,27 @@ class Character extends MovableObject {
 
     moveAnimate() {
         setInterval(() => {
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x && !this.isDead() && !this.isCollidingBarrier()) {
+            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x && !this.isDead() && !this.collision) {
                 this.moveRight();
                 this.otherDirection = false;
                 this.resetAfkTime();
-                this.swim_sound.play();
+                // this.swim_sound.play();
             }
-            if (this.world.keyboard.LEFT && this.x > 0 && !this.isDead() && !this.isCollidingBarrier()) {
+            if (this.world.keyboard.LEFT && this.x > 0 && !this.isDead() && !this.collision) {
                 this.moveLeft();
                 this.otherDirection = true;
                 this.resetAfkTime();
-                this.swim_sound.play();
+                // this.swim_sound.play();
             }
-            if (this.world.keyboard.UP && this.y > -80 && !this.isDead() && !this.isCollidingBarrier()) {
+            if (this.world.keyboard.UP && this.y > -80 && !this.isDead() && !this.collision) {
                 this.moveUp();
                 this.resetAfkTime();
-                this.swim_sound.play();
+                // this.swim_sound.play();
             }
-            if (this.world.keyboard.DOWN && this.y < 190 && !this.isDead() && !this.isCollidingBarrier()) {
+            if (this.world.keyboard.DOWN && this.y < 190 && !this.isDead() && !this.collision) {
                 this.moveDown();
                 this.resetAfkTime();
-                this.swim_sound.play();
+                // this.swim_sound.play();
             }
             
             this.world.camera_x = -this.x + 80;

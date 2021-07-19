@@ -31,10 +31,11 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
+        this.runFast();
 
-        this.play_music.play();
-        this.play_music.volume = 0.2;
-        this.play_music.loop = true;
+        // this.play_music.play();
+        // this.play_music.volume = 0.2;
+        // this.play_music.loop = true;
     }
 
     run() {
@@ -47,9 +48,15 @@ class World {
             this.checkThrowPoisonBubble();
             this.checkDistanceToEnemy();
             this.checkMobyDickCollisionWithChar();
-            this.checkCollisionWithBarrier();
             this.checkIfWinOrLoose();
         }, 1000 / 10);
+    }
+
+    runFast() {
+        setInterval(() => {
+            this.checkCollisionWithBarrier();
+            this.checkCollisionWithTheCave();
+        }, 1000 / 60);
     }
 
     checkIfWinOrLoose() {
@@ -64,19 +71,40 @@ class World {
     }
 
     checkCollisionWithBarrier() {
-        this.level.separateBarrier.forEach(b => {
-            if (this.character.characterIsColliding(b)) {
-                this.character.hitBarrier();
+        this.level.separateBarrier.forEach(barrier => {
+            if (this.character.isCollidingLeft(barrier)) {
+                this.character.collision = true;
                 this.character.x -= 10;
-            } else if(this.character.characterIsCollidingBackwards(b) && this.character.otherDirection) {
-                this.character.hitBarrier();
+                this.character.y -= 1;
+            } else if (this.character.isCollidingRight(barrier) && this.character.otherDirection) {
+                this.character.collision = true;
                 this.character.x += 10;
-            } else if(this.character.characterIsCollidingFromTop(b) && this.isNear(b, 5)) {
-                this.character.hitBarrier();
+                this.character.y -= 1;
+            } else if (this.character.isCollidingTop(barrier)) {
+                this.character.collision = true;
                 this.character.y -= 10;
-                console.log('Collision');
+            } else if (this.character.isCollidingBottom(barrier)) {
+                this.character.collision = true;
+                this.character.y += 10;
+            } else {
+                this.character.collision = false;
             }
         });
+    }
+
+    checkCollisionWithTheCave() {
+        this.level.barrier.forEach(barrier => {
+            this.character.isCollidingCave(barrier)
+            if (this.character.caveTopBarrier) {
+                this.character.collision = true;
+                this.character.y += 10;
+            } else if (this.character.caveBottomBarrier) {
+                this.character.collision = true;
+                this.character.y -= 10;
+            } else {
+                this.character.collision = false;
+            }
+        })
     }
 
     checkDistanceToEnemy() {
