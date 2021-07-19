@@ -19,6 +19,7 @@ body {
 
 h1 {
     font-size: 3em;
+    color: #fcee21;
 }
 
 #canvasBox {
@@ -39,15 +40,19 @@ canvas {
 }
 
 #tryAgainBtn {
+    margin-top: 200px;
     position: absolute;
-    bottom: 20px;
+    top: 130px;
+    left: 260px;
+    height: 80px;
+    opacity: 0;
 }
 
 .fullScreenBtn {
     margin-top: 32.160px;
 }
 
-#startScreen {
+.screen {
     width: 720px;
     height: 480px;
     background: url('img/3. Background/Mesa de trabajo 1.png');

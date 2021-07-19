@@ -7,6 +7,7 @@ class MovableObject extends DrawableObject {
     acceleration = 1.5;
     energy = 100;
     lastBarrierCollision = 0;
+    checkPoint = false;
 
     hitBarrier() {
         this.lastBarrierCollision = new Date().getTime();
@@ -62,9 +63,22 @@ class MovableObject extends DrawableObject {
 
     characterIsColliding(mo) {
         return this.x + this.width - 35 > mo.x &&
-            this.y + this.height - 50 > mo.y &&
+            this.y + this.height - 100 > mo.y &&
             this.x - 70 < mo.x &&
             this.y + 130 < mo.y + mo.height
+    }
+
+    characterIsCollidingBackwards(mo) {
+        return this.x + 35 < mo.x + mo.width &&
+            this.y + this.height - 100 > mo.y &&
+            this.x + this.width > mo.x
+    }
+
+    characterIsCollidingFromTop(mo) {
+        return this.y + this.height - 60 > mo.y &&
+            this.x < mo.x + mo.width 
+            // &&
+            // this.x + this.width < mo.x + mo.width
     }
 
     moveLeft() {

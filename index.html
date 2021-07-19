@@ -51,6 +51,7 @@
     <script src="models/world.class.js"></script>
     <script src="models/game-over.class.js"></script>
     <script src="models/win-game.class.js"></script>
+    <script src="models/try-again-btn.class.js"></script>
     <script src="models/keyboard.class.js"></script>
     <script src="models/level.class.js"></script>
     <script src="levels/level1.js"></script>
@@ -65,16 +66,18 @@
 
     <h1>Sharkie</h1>
 
-    <div id="startScreen">
+    <div id="startScreen" class="screen">
         <div id="startButtonBox"><img onclick="startGame()" class="btn startBtn" src="img/6.Botones/Start/3.png"></div>
     </div>
     <div id="canvasBox">
         <canvas id="canvas" width="720" height="480"></canvas>
-        <img id="tryAgainBtn" class="btn " onclick="reset()" src="img/6.Botones/Try again/Recurso 15.png">
+        <!-- <div id="endScreen" class="screen"> -->
+            <img id="tryAgainBtn" class="btn" onclick="reset()" src="img/6.Botones/Try again/Recurso 15.png">
+        <!-- </div> -->
     </div>
+    
     <img onclick="fullScreen()" class="btn fullScreenBtn" src="img/6.Botones/Full Screen/Mesa de trabajo 6.png">
-
-
+    
 </body>
 
 </html>

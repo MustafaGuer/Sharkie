@@ -10,6 +10,10 @@ class Character extends MovableObject {
     swimAnimateVar = false;
     attackAnimateVar = false;
     barrier = false;
+    swim_sound = new Audio('../audio/swim.mp3');
+    slap_sound = new Audio('../audio/slap.mp3');
+    bubble_shoot = new Audio('../audio/bubbleShoot.mp3');
+
 
     constructor() {
         super().loadImage('img/1.Sharkie/1.IDLE/1.png');
@@ -50,11 +54,13 @@ class Character extends MovableObject {
         setInterval(() => {
             if (this.world.keyboard.D && !this.isDead()) {
                 this.playAnimation(this.IMAGES_BUBBLE_TRAP);
+                this.bubble_shoot.play();
                 this.resetAfkTime();
                 this.attackAnimateVar = true;
             } else if (this.world.keyboard.SPACE && !this.isDead()) {
                 this.playAnimation(this.IMAGES_FIN_SLAP);
                 this.resetAfkTime();
+                this.slap_sound.play();
                 this.attackAnimateVar = true;
             } else if (this.world.keyboard.F && !this.isDead()) {
                 this.playAnimation(this.IMAGES_WHALE_ATTACK);
@@ -107,20 +113,25 @@ class Character extends MovableObject {
                 this.moveRight();
                 this.otherDirection = false;
                 this.resetAfkTime();
+                this.swim_sound.play();
             }
             if (this.world.keyboard.LEFT && this.x > 0 && !this.isDead() && !this.isCollidingBarrier()) {
                 this.moveLeft();
                 this.otherDirection = true;
                 this.resetAfkTime();
+                this.swim_sound.play();
             }
-            if (this.world.keyboard.UP && this.y > -80 && !this.isDead()) {
+            if (this.world.keyboard.UP && this.y > -80 && !this.isDead() && !this.isCollidingBarrier()) {
                 this.moveUp();
                 this.resetAfkTime();
+                this.swim_sound.play();
             }
             if (this.world.keyboard.DOWN && this.y < 190 && !this.isDead() && !this.isCollidingBarrier()) {
                 this.moveDown();
                 this.resetAfkTime();
+                this.swim_sound.play();
             }
+            
             this.world.camera_x = -this.x + 80;
         }, 1000 / 60);
     }

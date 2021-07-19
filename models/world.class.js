@@ -17,9 +17,11 @@ class World {
     poisons = [];
     gameOver = new GameOver();
     winScreen = new WinGame();
+    tryAgain = new TryAgain();
     loose = false;
     win = false;
-    
+    play_music = new Audio('../audio/bgm2.mp3');
+
 
     constructor(canvas, keyboard) {
 
@@ -29,6 +31,10 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
+
+        this.play_music.play();
+        this.play_music.volume = 0.2;
+        this.play_music.loop = true;
     }
 
     run() {
@@ -47,19 +53,29 @@ class World {
     }
 
     checkIfWinOrLoose() {
-        if(this.character.isDead()) {
+        if (this.character.isDead()) {
             this.loose = true;
+            show('tryAgainBtn');
         }
-        if(this.mobyDick.isDead()) {
+        if (this.mobyDick.isDead()) {
+            show('tryAgainBtn');
             this.win = true;
         }
     }
 
     checkCollisionWithBarrier() {
         this.level.separateBarrier.forEach(b => {
-            if(this.character.characterIsColliding(b)) {
+            if (this.character.characterIsColliding(b)) {
                 this.character.hitBarrier();
-            } 
+                this.character.x -= 10;
+            } else if(this.character.characterIsCollidingBackwards(b) && this.character.otherDirection) {
+                this.character.hitBarrier();
+                this.character.x += 10;
+            } else if(this.character.characterIsCollidingFromTop(b) && this.isNear(b, 5)) {
+                this.character.hitBarrier();
+                this.character.y -= 10;
+                console.log('Collision');
+            }
         });
     }
 
@@ -84,9 +100,10 @@ class World {
             }
         })
 
-        if (this.isNear(this.mobyDick, 350)) {
-            this.mobyDick.intro = true;
-        } 
+        if (this.isNear(this.mobyDick, 300)) {
+            this.mobyDick.animateIntro();
+            this.character.checkPoint = true;
+        }
         if (this.isNear(this.mobyDick, 300)) {
             this.mobyDick.x -= 5;
         }
@@ -97,7 +114,7 @@ class World {
     }
 
     checkMobyDickCollisionWithChar() {
-        if(this.isNear(this.mobyDick, 100)) {
+        if (this.isNear(this.mobyDick, 100)) {
             this.mobyDick.attack = true;
         } else {
             this.mobyDick.attack = false;
@@ -212,6 +229,7 @@ class World {
 
     setWorld() {
         this.character.world = this;
+        this.tryAgain.world = this;
     }
 
     draw() {
@@ -225,30 +243,33 @@ class World {
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.poisons);
         this.addToMap(this.character);
-        this.addToMap(this.mobyDick);
+        if (this.character.checkPoint) {
+            this.addToMap(this.mobyDick);
+        }
         this.addObjectsToMap(this.level.floor);
         this.addObjectsToMap(this.throwableObjects);
         this.addObjectsToMap(this.throwablePoisonBubbles);
         this.addObjectsToMap(this.level.barrier);
         this.addObjectsToMap(this.level.separateBarrier);
-        this.addToMap(this.mobyDickHealthBar);        
+        this.addToMap(this.mobyDickHealthBar);
 
         // ------SPACE FOR FIXED OBJECTS------
         this.ctx.translate(-this.camera_x, 0);
 
-        if(this.loose) {
+        if (this.loose) {
             this.addGameOverToMap(this.gameOver);
-            show('tryAgainBtn');
+            this.addGameOverToMap(this.tryAgain);
         }
 
-        if(this.win) {
+        if (this.win) {
             this.addGameOverToMap(this.winScreen);
-        }       
-        
+            this.addGameOverToMap(this.tryAgain);
+        }
+
         this.addToMap(this.healthBar);
         this.addToMap(this.coinBar);
         this.addToMap(this.poisonBar);
-        
+
         this.ctx.translate(this.camera_x, 0);
 
         this.ctx.translate(-this.camera_x, 0);
@@ -266,7 +287,7 @@ class World {
         }
 
         mo.draw(this.ctx);
-        // mo.drawFrame(this.ctx);
+        mo.drawFrame(this.ctx);
 
         if (mo.otherDirection) {
             this.flipImageBack(mo);
