@@ -23,8 +23,15 @@ function startGame() {
     start_sound.volume = 0.3;
     background_music.pause();
     muteGame();
-    
 }
+
+// function showGamepad() {
+//     document.getElementById('controllerBox').classList.remove('d-none');
+// }
+
+// function closeGamepad() {
+//     document.getElementById('controllerBox').classList.add('d-none');
+// }
 
 function muteGame() {
     

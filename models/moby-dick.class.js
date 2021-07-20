@@ -7,6 +7,7 @@ class MobyDick extends MovableObject {
     attack = false;
     counter = 0;
     dead = 0;
+    isIn = false;
     bite_sound = new Audio('../audio/biteSound.mp3');
     monster_pain = new Audio('../audio/monsterPain.mp3');
     monster_growl = new Audio('../audio/monsterSound.mp3');

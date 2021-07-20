@@ -4,10 +4,13 @@ class World {
     ctx;
     character = new Character();
     mobyDick = new MobyDick();
-    mobyDickHealthBar = new MobyDickHealthBar(this.mobyDick.x, this.mobyDick.y, this.mobyDick.width);
+    mobyDickHealthBar = new MobyDickHealthBar();
     healthBar = new HealthBar();
     coinBar = new CoinBar();
     poisonBar = new PoisonBar();
+    gameOver = new GameOver();
+    winScreen = new WinGame();
+    tryAgain = new TryAgain();
     keyboard;
     camera_x = 0;
     jellyfish = false;
@@ -15,15 +18,13 @@ class World {
     throwablePoisonBubbles = [];
     coins = [];
     poisons = [];
-    gameOver = new GameOver();
-    winScreen = new WinGame();
-    tryAgain = new TryAgain();
     loose = false;
     win = false;
     play_music = new Audio('../audio/bgm2.mp3');
     claim_poison = new Audio('../audio/claimPoison.mp3');
     claim_coin = new Audio('../audio/coinGrab.mp3');
-
+    dead_pufferfish_sound = new Audio('../audio/gameFishSound.mp3');
+    dead_jellyfish_sound = new Audio('../audio/electroZap.mp3');
 
     constructor(canvas, keyboard) {
 
@@ -101,7 +102,7 @@ class World {
                 this.character.collision = true;
                 this.character.y += 10;
             } else if (this.character.caveBottomBarrier
-                ) {
+            ) {
                 this.character.collision = true;
                 this.character.y -= 10;
             } else {
@@ -222,8 +223,7 @@ class World {
             }
         })
     }
-dead_pufferfish_sound = new Audio('../audio/gameFishSound.mp3');
-dead_jellyfish_sound = new Audio('../audio/electroZap.mp3');
+    
     checkSlapEnemy() {
         this.level.pufferfishes.forEach((pufferfish, index) => {
             if (this.character.isColliding(pufferfish) && this.keyboard.SPACE && !this.character.isDead()) {
@@ -239,6 +239,7 @@ dead_jellyfish_sound = new Audio('../audio/electroZap.mp3');
     checkSlapMobyDick() {
         if (this.character.isColliding(this.mobyDick) && this.keyboard.SPACE && !this.character.isDead()) {
             this.mobyDick.hit();
+            this.mobyDickHealthBar.setPercentage(this.mobyDick.energy);
         }
     }
 
@@ -259,6 +260,7 @@ dead_jellyfish_sound = new Audio('../audio/electroZap.mp3');
 
         if (this.character.characterIsColliding(this.mobyDick) && !this.mobyDick.isDead()) {
             this.character.hit();
+            this.jellyfish = false;
         }
         this.healthBar.setPercentage(this.character.energy);
     }
@@ -279,15 +281,15 @@ dead_jellyfish_sound = new Audio('../audio/electroZap.mp3');
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.poisons);
         this.addToMap(this.character);
-        if (this.character.checkPoint) {
-            this.addToMap(this.mobyDick);
-        }
         this.addObjectsToMap(this.level.floor);
         this.addObjectsToMap(this.throwableObjects);
         this.addObjectsToMap(this.throwablePoisonBubbles);
         this.addObjectsToMap(this.level.barrier);
         this.addObjectsToMap(this.level.separateBarrier);
-        this.addToMap(this.mobyDickHealthBar);
+        if (this.character.checkPoint) {
+            this.addToMap(this.mobyDick);
+            this.mobyDick.isIn = true;
+        }
 
         // ------SPACE FOR FIXED OBJECTS------
         this.ctx.translate(-this.camera_x, 0);
@@ -300,6 +302,10 @@ dead_jellyfish_sound = new Audio('../audio/electroZap.mp3');
         if (this.win) {
             this.addGameOverToMap(this.winScreen);
             this.addGameOverToMap(this.tryAgain);
+        }
+
+        if (this.mobyDick.isIn) {
+            this.addToMap(this.mobyDickHealthBar);
         }
 
         this.addToMap(this.healthBar);

@@ -67,17 +67,42 @@
     <h1>Sharkie</h1>
 
     <div id="startScreen" class="screen">
-        <div id="startButtonBox"><img onclick="startGame()" class="btn startBtn" src="img/6.Botones/Start/3.png"></div>
+        <div id="startButtonBox"><img onclick="startGame()" class="btn startBtn" src="img/6.Botones/Start/2.png"></div>
     </div>
     <div id="canvasBox">
         <canvas id="canvas" width="720" height="480"></canvas>
-        <!-- <div id="endScreen" class="screen"> -->
-            <img id="tryAgainBtn" class="btn" onclick="reset()" src="img/6.Botones/Try again/Recurso 15.png">
-        <!-- </div> -->
+        <img id="tryAgainBtn" class="btn" onclick="reset()" src="img/6.Botones/Try again/Recurso 15.png">
     </div>
-    
-    <img onclick="fullScreen()" class="btn fullScreenBtn" src="img/6.Botones/Full Screen/Mesa de trabajo 6.png">
-    
+    <div class="gamePlayBox">
+        <img onclick="show('controllerBox')" class="gamePadImg" src="img/6.Botones/controller.jpg">
+        <img onclick="fullScreen()" class="btn fullScreenBtn" src="img/6.Botones/Full Screen/Mesa de trabajo 7.png">
+    </div>
+
+    <div id="controllerBox" class="d-none">
+        <div onclick="hide('controllerBox')" class="closeRow"><span class="closeBtn">X</span></div>
+        <div class="move keys">
+            <img src="img/6.Botones/Key/arrow keys.png">
+            <img src="img/6.Botones/Tittles/Move title.png">
+            <img class="previews" src="img/1.Sharkie/3.Swim/PreviewOP1.gif">
+        </div>
+        <div class="bubbleAttack keys">
+            <img src="img/6.Botones/Key/D key.png">
+            <img src="img/6.Botones/Tittles/Attack tittle.png">
+            <img class="previews" src="img/1.Sharkie/4.Attack/Bubble trap/Preview.gif">
+        </div>
+        <div class="slapAttack keys">
+            <img src="img/6.Botones/Key/Space Bar key.png">
+            <img src="img/6.Botones/Tittles/Attack tittle.png">
+            <img class="previews" src="img/1.Sharkie/4.Attack/Fin slap/PreviewOP1.gif">
+        </div>
+        <div class="spBubbleAttack keys">
+            <span>F</span>
+            <span>+</span>
+            <img src="img/4. Marcadores/orange/100_ copia.png">
+            <img class="previews" src="img/1.Sharkie/4.Attack/Bubble trap/For Whale/7.png">
+        </div>
+    </div>
+
 </body>
 
 </html>

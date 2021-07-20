@@ -10,7 +10,7 @@ class TryAgain extends DrawableObject {
     ];
 
     constructor() {
-        super().loadImage('img/6.Botones/Try again/Recurso 15.png');
+        super().loadImage('img/6.Botones/Try again/Recurso 17.png');
         this.loadImages(this.IMAGES);
 
         this.width = 200;

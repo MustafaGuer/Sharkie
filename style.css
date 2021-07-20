@@ -19,7 +19,8 @@ body {
 
 h1 {
     font-size: 3em;
-    color: #fcee21;
+    color: #531a82;
+    letter-spacing: 3px;
 }
 
 #canvasBox {
@@ -48,8 +49,17 @@ canvas {
     opacity: 0;
 }
 
-.fullScreenBtn {
+.gamePlayBox {
+    display: flex;
+    justify-content: space-between;
+    width: 720px;
+    height: 50px;
     margin-top: 32.160px;
+}
+
+.gamePadImg {
+    height: 40px;
+    cursor: pointer;
 }
 
 .screen {
@@ -60,4 +70,81 @@ canvas {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#controllerBox {
+    position: absolute;
+    width: 720px;
+    height: 480px;
+    margin-top: 40px;
+    background-color: rgba(0, 0, 0, 0.6); 
+}
+
+.keys {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.move {
+    margin-top: 32px;
+}
+
+.keys img {
+    height: 80px;
+    width: auto;
+}
+
+.keys img:nth-of-type(2) {
+    height: 30px;
+}
+
+.keys span {
+    color: white;
+}
+
+.bubbleAttack > img:first-of-type {
+    height: 50px;
+}
+
+.bubbleAttack > img:last-of-type {
+    height: 150;
+}
+
+.slapAttack > img:first-of-type {
+    height: 50px; 
+    width: 150px;
+}
+
+.spBubbleAttack > img:first-of-type {
+    height: 50px;
+}
+
+.spBubbleAttack > img:last-of-type {
+    height: 100px;
+}
+
+.spBubbleAttack > span {
+    font-size: 30px;
+}
+
+.spBubbleAttack > span:first-of-type {
+    border: 3px solid white;
+    padding: 8px 16px;
+    border-radius: 15px;
+    background-color: #7fffe0;
+    color: #542385
+}
+
+.closeRow {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.closeBtn {
+    color: white;
+    font-size: 30px;
+    margin-top: 16px;
+    margin-right: 32px;
+    cursor: pointer;
 }

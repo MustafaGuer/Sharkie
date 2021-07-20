@@ -7,6 +7,7 @@ class MovableObject extends DrawableObject {
     acceleration = 1.5;
     energy = 100;
     checkPoint = false;
+    
 
     caveTopBarrier;
     caveBottomBarrier;
