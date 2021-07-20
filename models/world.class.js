@@ -21,6 +21,8 @@ class World {
     loose = false;
     win = false;
     play_music = new Audio('../audio/bgm2.mp3');
+    claim_poison = new Audio('../audio/claimPoison.mp3');
+    claim_coin = new Audio('../audio/coinGrab.mp3');
 
 
     constructor(canvas, keyboard) {
@@ -33,9 +35,9 @@ class World {
         this.run();
         this.runFast();
 
-        // this.play_music.play();
-        // this.play_music.volume = 0.2;
-        // this.play_music.loop = true;
+        this.play_music.play();
+        this.play_music.volume = 0.2;
+        this.play_music.loop = true;
     }
 
     run() {
@@ -75,11 +77,11 @@ class World {
             if (this.character.isCollidingLeft(barrier)) {
                 this.character.collision = true;
                 this.character.x -= 10;
-                this.character.y -= 1;
+                this.character.y -= 5;
             } else if (this.character.isCollidingRight(barrier) && this.character.otherDirection) {
                 this.character.collision = true;
                 this.character.x += 10;
-                this.character.y -= 1;
+                this.character.y -= 5;
             } else if (this.character.isCollidingTop(barrier)) {
                 this.character.collision = true;
                 this.character.y -= 10;
@@ -98,7 +100,8 @@ class World {
             if (this.character.caveTopBarrier) {
                 this.character.collision = true;
                 this.character.y += 10;
-            } else if (this.character.caveBottomBarrier) {
+            } else if (this.character.caveBottomBarrier
+                ) {
                 this.character.collision = true;
                 this.character.y -= 10;
             } else {
@@ -132,7 +135,7 @@ class World {
             this.mobyDick.animateIntro();
             this.character.checkPoint = true;
         }
-        if (this.isNear(this.mobyDick, 300)) {
+        if (this.isNear(this.mobyDick, 300) && !this.mobyDick.isDead()) {
             this.mobyDick.x -= 5;
         }
     }
@@ -155,6 +158,7 @@ class World {
                 this.coins.push(coin);
                 coins.splice(index, 1);
                 this.coinBar.setPercentage(this.coins.length);
+                this.claim_coin.play();
             }
         });
         poisons.forEach((poison, index) => {
@@ -162,6 +166,7 @@ class World {
                 this.poisons.push(poison);
                 poisons.splice(index, 1);
                 this.poisonBar.setPercentage(this.poisons.length);
+                this.claim_poison.play();
             }
         })
     }
@@ -183,6 +188,7 @@ class World {
                 if (bubble.isColliding(jellyfish)) {
                     this.level.jellyfishes[index].hit();
                     this.throwableObjects.splice(number, 1);
+                    this.dead_jellyfish_sound.play();
                     setTimeout(() => {
                         this.level.jellyfishes.splice(index, 1);
                     }, 400);
@@ -216,11 +222,13 @@ class World {
             }
         })
     }
-
+dead_pufferfish_sound = new Audio('../audio/gameFishSound.mp3');
+dead_jellyfish_sound = new Audio('../audio/electroZap.mp3');
     checkSlapEnemy() {
         this.level.pufferfishes.forEach((pufferfish, index) => {
             if (this.character.isColliding(pufferfish) && this.keyboard.SPACE && !this.character.isDead()) {
                 this.level.pufferfishes[index].hit();
+                this.dead_pufferfish_sound.play();
                 setTimeout(() => {
                     this.level.pufferfishes.splice(index, 1);
                 }, 1000);
@@ -315,7 +323,7 @@ class World {
         }
 
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
+        // mo.drawFrame(this.ctx);
 
         if (mo.otherDirection) {
             this.flipImageBack(mo);

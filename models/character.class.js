@@ -10,11 +10,13 @@ class Character extends MovableObject {
     swimAnimateVar = false;
     attackAnimateVar = false;
     barrier = false;
-    swim_sound = new Audio('../audio/swim.mp3');
+    swim_sound = new Audio('../audio/vibrations.mp3');
     slap_sound = new Audio('../audio/slap.mp3');
     bubble_shoot = new Audio('../audio/bubbleShoot.mp3');
+    electro_zap = new Audio('../audio/electroZap.mp3');
+    poison_hurt = new Audio('../audio/punchGrunt.mp3');
     collision = false;
-
+    fail_sound = new Audio('../audio/failSound.mp3');
 
     constructor() {
         super().loadImage('img/1.Sharkie/1.IDLE/1.png');
@@ -44,6 +46,7 @@ class Character extends MovableObject {
                 if (!this.isDead()) {
                     this.playAnimation(this.IMAGES_SWIM);
                     this.swimAnimateVar = true;
+                    this.swim_sound.play();
                 }
             } else {
                 this.swimAnimateVar = false;
@@ -92,17 +95,21 @@ class Character extends MovableObject {
             if (this.isDead() && this.world.jellyfish) {
                 this.playAnimation(this.IMAGES_ELECTROSHOCK_DEAD);
                 this.electroDead();
+                this.fail_sound.play();
                 setTimeout(() => {
                     clearInterval(animationsInterval);
                 }, 250);
             } else if (this.isDead()) {
                 this.playAnimation(this.IMAGES_POISONED_DEAD);
+                this.fail_sound.play();
                 setTimeout(() => {
                     clearInterval(animationsInterval);
                 }, 250);
             } else if (this.isHurt() && this.world.jellyfish) {
+                this.electro_zap.play();
                 this.playAnimation(this.IMAGES_ELECTRIC_SHOCK);
             } else if (this.isHurt()) {
+                this.poison_hurt.play();
                 this.playAnimation(this.IMAGES_POISONED);
             }
         }, 1000 / 60);
@@ -114,23 +121,19 @@ class Character extends MovableObject {
                 this.moveRight();
                 this.otherDirection = false;
                 this.resetAfkTime();
-                // this.swim_sound.play();
             }
             if (this.world.keyboard.LEFT && this.x > 0 && !this.isDead() && !this.collision) {
                 this.moveLeft();
                 this.otherDirection = true;
                 this.resetAfkTime();
-                // this.swim_sound.play();
             }
             if (this.world.keyboard.UP && this.y > -80 && !this.isDead() && !this.collision) {
                 this.moveUp();
                 this.resetAfkTime();
-                // this.swim_sound.play();
             }
             if (this.world.keyboard.DOWN && this.y < 190 && !this.isDead() && !this.collision) {
                 this.moveDown();
                 this.resetAfkTime();
-                // this.swim_sound.play();
             }
             
             this.world.camera_x = -this.x + 80;

@@ -6,7 +6,11 @@ class MobyDick extends MovableObject {
     intro = false;
     attack = false;
     counter = 0;
-    bite_sound = new Audio('audio/biteSound.mp3');
+    dead = 0;
+    bite_sound = new Audio('../audio/biteSound.mp3');
+    monster_pain = new Audio('../audio/monsterPain.mp3');
+    monster_growl = new Audio('../audio/monsterSound.mp3');
+    monster_die = new Audio('../audio/monsterDie.mp3');
 
     constructor() {
         super().loadImage('img/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2.png');
@@ -27,21 +31,22 @@ class MobyDick extends MovableObject {
             if (this.counter == 10) {
                 clearInterval(animationIntro);
                 this.animate();
+                this.monster_growl.play();
             } else {
                 this.playAnimation(this.IMAGES_INTRO);
                 this.counter++;
             }
         }, 1000 / 7);
     }
-
+    win_sound = new Audio('../audio/winSound.mp3');
     animate() {
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
-                setTimeout(() => {
-                    clearInterval(animation);
-                }, 500);
+                this.monster_die.play();
+                this.win_sound.play();
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
+                this.monster_pain.play();
             } else if (this.attack) {
                 this.playAnimation(this.IMAGES_ATTACK);
                 this.bite_sound.play();
