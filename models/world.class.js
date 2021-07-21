@@ -22,24 +22,24 @@ class World {
     win = false;
     musicVolume;
     soundVolume;
-    play_music = new Audio('../audio/bgm2.mp3');
-    claim_poison = new Audio('../audio/claimPoison.mp3');
-    claim_coin = new Audio('../audio/coinGrab.mp3');
-    dead_pufferfish_sound = new Audio('../audio/gameFishSound.mp3');
-    dead_jellyfish_sound = new Audio('../audio/electroZap.mp3');
-    fail_sound = new Audio('../audio/failSound.mp3');
-    win_sound = new Audio('../audio/winSound.mp3');
+    play_music = new Audio('audio/bgm2.mp3');
+    claim_poison = new Audio('audio/claimPoison.mp3');
+    claim_coin = new Audio('audio/coinGrab.mp3');
+    dead_pufferfish_sound = new Audio('audio/gameFishSound.mp3');
+    dead_jellyfish_sound = new Audio('audio/electroZap.mp3');
+    fail_sound = new Audio('audio/failSound.mp3');
+    win_sound = new Audio('audio/winSound.mp3');
 
-    moby_dick_growl = new Audio('../audio/monsterSound.mp3');
-    bite_sound = new Audio('../audio/biteSound.mp3');
-    moby_dick_die = new Audio('../audio/monsterDie.mp3');
-    moby_dick_pain = new Audio('../audio/monsterPain.mp3');
+    moby_dick_growl = new Audio('audio/monsterSound.mp3');
+    bite_sound = new Audio('audio/biteSound.mp3');
+    moby_dick_die = new Audio('audio/monsterDie.mp3');
+    moby_dick_pain = new Audio('audio/monsterPain.mp3');
 
-    poison_hurt = new Audio('../audio/punchGrunt.mp3');
-    electro_zap = new Audio('../audio/electroZap.mp3');
-    slap_sound = new Audio('../audio/slap.mp3');
-    swim_sound = new Audio('../audio/vibrations.mp3');
-    bubble_shoot = new Audio('../audio/bubbleShoot.mp3');
+    poison_hurt = new Audio('audio/punchGrunt.mp3');
+    electro_zap = new Audio('audio/electroZap.mp3');
+    slap_sound = new Audio('audio/slap.mp3');
+    swim_sound = new Audio('audio/vibrations.mp3');
+    bubble_shoot = new Audio('audio/bubbleShoot.mp3');
 
 
     constructor(canvas, keyboard, musicVolume, soundVolume) {
@@ -285,11 +285,12 @@ class World {
     }
 
     checkCollisionWithPoisonBubble() {
-        this.throwablePoisonBubbles.forEach(poisonBubble => {
+        this.throwablePoisonBubbles.forEach((poisonBubble, index) => {
             if (poisonBubble.isColliding(this.mobyDick)) {
                 this.mobyDick.hit();
                 this.mobyDickHealthBar.setPercentage(this.mobyDick.energy);
                 this.moby_dick_pain.play();
+                this.throwablePoisonBubbles.splice(index, 1);
             }
         })
     }
@@ -405,7 +406,7 @@ class World {
         }
 
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
+        // mo.drawFrame(this.ctx);
 
         if (mo.otherDirection) {
             this.flipImageBack(mo);

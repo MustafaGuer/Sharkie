@@ -11,6 +11,7 @@ body {
     align-items: center;
     justify-content: center;
     background-image: url('img/3. Background/Legacy/Dark/1.png');
+    margin: 0;
 }
 
 .d-none {
@@ -29,6 +30,7 @@ h1 {
 
 canvas {
     background-color: black;
+    display: block;
 }
 
 .btn {
@@ -55,6 +57,7 @@ canvas {
     width: 720px;
     height: 50px;
     margin-top: 32.160px;
+    z-index: 999;
 }
 
 .gamePadImg {
@@ -66,7 +69,9 @@ canvas {
     width: 720px;
     height: 480px;
     background: url('img/3. Background/Mesa de trabajo 1.png');
-    background-size: contain;
+    background-size: cover;
+    background-position: 80%;
+    background-repeat: no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -163,4 +168,85 @@ canvas {
 
 .volBtns {
     cursor: pointer;
+}
+
+/* -----Smartphones------- */
+
+@media only screen and (max-width: 720px) {
+    canvas {
+        width: 100%;
+    }
+    h1 {
+        display: none;
+    }
+    #startScreen {
+        width: 100%;
+    }
+    .gamePlayBox {
+        margin-top: -41px;
+        width: 100%;
+    }
+    .fullScreenBtn {
+        width: 140px;
+        height: 40px;
+    }
+    .startBtn {
+        margin-top: 0;
+    }
+    .screen {
+        background-position: 50%;
+    }
+}
+
+@media only screen and (max-height: 480px) {
+    canvas {
+        height: 100vh;
+    }
+    h1 {
+        display: none;
+    }
+    #startScreen {
+        height: 100vh;
+    }
+    .gamePlayBox {
+        margin-top: -40px;
+        width: 100%;
+    }
+    .fullScreenBtn {
+        display: none;
+    }
+    .startBtn {
+        margin-top: 0;
+    }
+    .screen {
+        background-position: 50%;
+    }
+    .move {
+        margin-top: 0;
+    }
+    .closeBtn {
+        margin-top: 30px;
+    }
+    .keys img {
+        height: 50px;
+    }
+    .keys img:nth-of-type(2) {
+        height: 20px;
+    }
+    .bubbleAttack > img:first-of-type {
+        height: 40px;
+    }
+    .slapAttack > img:first-of-type {
+        height: 40px;
+        width: 130px;
+    }
+    .spBubbleAttack > span {
+        font-size: 22px;
+    }
+    .spBubbleAttack > span:first-of-type {
+        padding: 6px 14px;
+    }
+    .poisonAttack {
+        height: 70px !important;
+    }
 }

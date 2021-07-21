@@ -2,18 +2,14 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let startscreen;
-let start_sound = new Audio('../audio/waterSplash.mp3');
-let background_music = new Audio('../audio/bgmChill.mp3');
-let musicVolume = 0;
-let soundVolume = 0;
+let start_sound = new Audio('audio/waterSplash.mp3');
+let musicVolume = 2;
+let soundVolume = 7;
 
 function init() {
     hide('canvas');
     hide('tryAgainBtn');
     getMusicAndSoundSettings();
-    // background_music.play();
-    // background_music.volume = 0.4;
-    // background_music.loop = true;
 }
 
 function getMusicAndSoundSettings() {
@@ -28,7 +24,6 @@ function startGame() {
     world = new World(canvas, keyboard, musicVolume / 10, soundVolume / 10);
     start_sound.play();
     start_sound.volume = soundVolume / 10;
-    // background_music.pause();
 }
 
 function quieterMusic() {
