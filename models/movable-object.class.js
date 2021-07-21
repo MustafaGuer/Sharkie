@@ -7,7 +7,7 @@ class MovableObject extends DrawableObject {
     acceleration = 1.5;
     energy = 100;
     checkPoint = false;
-    
+    otherSide = false;
 
     caveTopBarrier;
     caveBottomBarrier;
@@ -46,6 +46,26 @@ class MovableObject extends DrawableObject {
 
     isDead() {
         return this.energy == 0;
+    }
+
+    isNear(mo, distance) {
+        return this.x + this.width - 35 > (mo.x - distance) && this.x - 70 < (mo.x + distance)
+    }
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    isNearOtherSide(mo, distance) {
+        return this.x + 35 < (mo.x + mo.width) + distance && (this.x - distance) > mo.x - distance
+    }
+    
+    isOtherSide(mo) {
+        return this.x + this.width > mo.x
+    }
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    isAbove(mo) {
+        return (this.y + this.height) / 2 < (mo.y + mo.height) / 2
+    }
+
+    isBeneath(mo) {
+        return (this.y + this.height) / 2 > (mo.y + mo.height) / 2
     }
 
     isCollidingCave(mo) {
@@ -96,11 +116,18 @@ class MovableObject extends DrawableObject {
             this.y < mo.y + mo.height
     }
 
-    characterIsColliding(mo) {
+    isCollidingEnemiesAndCollectable(mo) {
         return this.x + this.width - 35 > mo.x &&
-            this.y + this.height - 100 > mo.y &&
+            this.y + this.height - 50 > mo.y &&
             this.x - 70 < mo.x &&
             this.y + 130 < mo.y + mo.height
+    }
+
+    isCollidingEndboss(mo) {
+        return this.x + this.width - 35 > mo.x &&
+            this.y + this.height - 50 > mo.y + 150 &&
+            this.x - 70 < mo.x &&
+            this.y + 130 < mo.y + mo.height - 100
     }
 
     moveLeft() {

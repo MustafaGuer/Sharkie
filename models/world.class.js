@@ -20,25 +20,40 @@ class World {
     poisons = [];
     loose = false;
     win = false;
+    musicVolume;
+    soundVolume;
     play_music = new Audio('../audio/bgm2.mp3');
     claim_poison = new Audio('../audio/claimPoison.mp3');
     claim_coin = new Audio('../audio/coinGrab.mp3');
     dead_pufferfish_sound = new Audio('../audio/gameFishSound.mp3');
     dead_jellyfish_sound = new Audio('../audio/electroZap.mp3');
+    fail_sound = new Audio('../audio/failSound.mp3');
+    win_sound = new Audio('../audio/winSound.mp3');
 
-    constructor(canvas, keyboard) {
+    moby_dick_growl = new Audio('../audio/monsterSound.mp3');
+    bite_sound = new Audio('../audio/biteSound.mp3');
+    moby_dick_die = new Audio('../audio/monsterDie.mp3');
+    moby_dick_pain = new Audio('../audio/monsterPain.mp3');
+
+    poison_hurt = new Audio('../audio/punchGrunt.mp3');
+    electro_zap = new Audio('../audio/electroZap.mp3');
+    slap_sound = new Audio('../audio/slap.mp3');
+    swim_sound = new Audio('../audio/vibrations.mp3');
+    bubble_shoot = new Audio('../audio/bubbleShoot.mp3');
+
+
+    constructor(canvas, keyboard, musicVolume, soundVolume) {
 
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
+        this.musicVolume = musicVolume;
+        this.soundVolume = soundVolume;
         this.draw();
         this.setWorld();
         this.run();
         this.runFast();
-
-        this.play_music.play();
-        this.play_music.volume = 0.2;
-        this.play_music.loop = true;
+        this.setMusicSettings(this.musicVolume, this.soundVolume);
     }
 
     run() {
@@ -50,8 +65,10 @@ class World {
             this.checkSlapMobyDick();
             this.checkThrowPoisonBubble();
             this.checkDistanceToEnemy();
-            this.checkMobyDickCollisionWithChar();
+            this.checkMobyDickAttackRange();
             this.checkIfWinOrLoose();
+            this.checkKeyboard();
+            this.checkHeight();
         }, 1000 / 10);
     }
 
@@ -62,14 +79,51 @@ class World {
         }, 1000 / 60);
     }
 
+    checkKeyboard() {
+        if (this.keyboard.SPACE) {
+            this.slap_sound.play();
+        }
+        if (this.keyboard.UP || this.keyboard.DOWN || this.keyboard.RIGHT || this.keyboard.LEFT) {
+            this.swim_sound.play();
+        }
+        if (this.keyboard.D) {
+            this.bubble_shoot.play();
+        }
+    }
+
+    setMusicSettings() {
+        this.play_music.play();
+        this.play_music.volume = this.musicVolume;
+        this.play_music.loop = true;
+
+        this.claim_poison.volume = this.soundVolume;
+        this.claim_coin.volume = this.soundVolume;
+        this.dead_pufferfish_sound.volume = this.soundVolume;
+        this.dead_jellyfish_sound.volume = this.soundVolume;
+        this.fail_sound.volume = this.soundVolume;
+        this.win_sound.volume = this.soundVolume;
+        this.moby_dick_growl.volume = this.soundVolume;
+        this.bite_sound.volume = this.soundVolume;
+        this.moby_dick_die.volume = this.soundVolume;
+        this.moby_dick_pain.volume = this.soundVolume;
+        this.poison_hurt.volume = this.soundVolume;
+        this.electro_zap.volume = this.soundVolume;
+        this.slap_sound.volume = this.soundVolume;
+        this.swim_sound.volume = this.soundVolume;
+        this.bubble_shoot.volume = this.soundVolume;
+    }
+
     checkIfWinOrLoose() {
         if (this.character.isDead()) {
             this.loose = true;
             show('tryAgainBtn');
+            this.fail_sound.play();
         }
         if (this.mobyDick.isDead()) {
             show('tryAgainBtn');
             this.win = true;
+            this.win_sound.play();
+            this.moby_dick_die.play();
         }
     }
 
@@ -113,7 +167,7 @@ class World {
 
     checkDistanceToEnemy() {
         this.level.jellyfishes.forEach((mo, index) => {
-            if (this.isNear(mo, 200)) {
+            if (this.character.isNear(mo, 200)) {
                 this.level.jellyfishes[index].jellyfishDanger = true;
             } else {
                 this.level.jellyfishes[index].jellyfishDanger = false;
@@ -121,10 +175,10 @@ class World {
         });
 
         this.level.pufferfishes.forEach((mo, index) => {
-            if (this.isNear(mo, 150)) {
+            if (this.character.isNear(mo, 150)) {
                 this.level.pufferfishes[index].pufferfishTransition = false;
                 this.level.pufferfishes[index].pufferfishDanger = true;
-            } else if (this.isNear(mo, 200)) {
+            } else if (this.character.isNear(mo, 200)) {
                 this.level.pufferfishes[index].pufferfishTransition = true;
             } else {
                 this.level.pufferfishes[index].pufferfishDanger = false;
@@ -132,22 +186,37 @@ class World {
             }
         })
 
-        if (this.isNear(this.mobyDick, 300)) {
+        if (this.character.isNear(this.mobyDick, 300) && !this.mobyDick.isDead() /* && !this.character.isOtherSide(this.mobyDick)*/) {
             this.mobyDick.animateIntro();
             this.character.checkPoint = true;
-        }
-        if (this.isNear(this.mobyDick, 300) && !this.mobyDick.isDead()) {
-            this.mobyDick.x -= 5;
+            this.moby_dick_growl.play();
+
+            this.mobyDick.otherDirection = false;
+            this.mobyDick.x -= this.mobyDick.speedX;
+        } 
+        //  else if (this.character.isOtherSide(this.mobyDick) && this.character.isNearOtherSide(this.mobyDick, 300)) {
+        //     this.mobyDick.otherDirection = true;
+        //     this.mobyDick.x += this.mobyDick.speedX;
+        // }
+    }
+
+    checkHeight() {
+        if (this.character.isAbove(this.mobyDick)) {
+            this.mobyDick.y -= this.mobyDick.speedY;
+        } else if (this.character.isBeneath(this.mobyDick)) {
+            this.mobyDick.y += this.mobyDick.speedY;
         }
     }
 
-    isNear(mo, distance) {
-        return this.character.x + this.character.width - 35 > (mo.x - distance) && this.character.x - 70 < (mo.x + distance)
-    }
-
-    checkMobyDickCollisionWithChar() {
-        if (this.isNear(this.mobyDick, 100)) {
+    checkMobyDickAttackRange() {
+        if (this.character.isNear(this.mobyDick, 100)) {
             this.mobyDick.attack = true;
+            this.mobyDick.x -= 5;
+            this.bite_sound.play();
+        // } else if(this.character.isNearOtherSide(this.mobyDick, 100) && this.character.isOtherSide(this.mobyDick)) {
+        //     this.mobyDick.attack = true;
+        //     // this.mobyDick.x += 20;
+        //     this.bite_sound.play();
         } else {
             this.mobyDick.attack = false;
         }
@@ -155,7 +224,7 @@ class World {
 
     checkCollectedObjects(coins, poisons) {
         coins.forEach((coin, index) => {
-            if (this.character.characterIsColliding(coin)) {
+            if (this.character.isCollidingEnemiesAndCollectable(coin)) {
                 this.coins.push(coin);
                 coins.splice(index, 1);
                 this.coinBar.setPercentage(this.coins.length);
@@ -163,7 +232,7 @@ class World {
             }
         });
         poisons.forEach((poison, index) => {
-            if (this.character.characterIsColliding(poison)) {
+            if (this.character.isCollidingEnemiesAndCollectable(poison)) {
                 this.poisons.push(poison);
                 poisons.splice(index, 1);
                 this.poisonBar.setPercentage(this.poisons.length);
@@ -220,10 +289,11 @@ class World {
             if (poisonBubble.isColliding(this.mobyDick)) {
                 this.mobyDick.hit();
                 this.mobyDickHealthBar.setPercentage(this.mobyDick.energy);
+                this.moby_dick_pain.play();
             }
         })
     }
-    
+
     checkSlapEnemy() {
         this.level.pufferfishes.forEach((pufferfish, index) => {
             if (this.character.isColliding(pufferfish) && this.keyboard.SPACE && !this.character.isDead()) {
@@ -240,27 +310,32 @@ class World {
         if (this.character.isColliding(this.mobyDick) && this.keyboard.SPACE && !this.character.isDead()) {
             this.mobyDick.hit();
             this.mobyDickHealthBar.setPercentage(this.mobyDick.energy);
+            this.moby_dick_pain.play();
         }
     }
 
     checkCollisions() {
         this.level.jellyfishes.forEach((jellyfish) => {
-            if (this.character.characterIsColliding(jellyfish)) {
+            if (this.character.isCollidingEnemiesAndCollectable(jellyfish)) {
                 this.character.hit();
                 this.jellyfish = true;
+                this.electro_zap.play();
             }
         })
 
         this.level.pufferfishes.forEach((pufferfish) => {
-            if (this.character.characterIsColliding(pufferfish)) {
+            if (this.character.isCollidingEnemiesAndCollectable(pufferfish)) {
                 this.character.hit();
                 this.jellyfish = false;
+                this.poison_hurt.play();
             }
         })
 
-        if (this.character.characterIsColliding(this.mobyDick) && !this.mobyDick.isDead()) {
+        if (this.character.isCollidingEndboss(this.mobyDick) && !this.mobyDick.isDead()) {
             this.character.hit();
             this.jellyfish = false;
+            this.character.collision = true;
+            this.character.x -= 5;
         }
         this.healthBar.setPercentage(this.character.energy);
     }
@@ -268,6 +343,7 @@ class World {
     setWorld() {
         this.character.world = this;
         this.tryAgain.world = this;
+        this.mobyDick.world = this;
     }
 
     draw() {
@@ -329,7 +405,7 @@ class World {
         }
 
         mo.draw(this.ctx);
-        // mo.drawFrame(this.ctx);
+        mo.drawFrame(this.ctx);
 
         if (mo.otherDirection) {
             this.flipImageBack(mo);

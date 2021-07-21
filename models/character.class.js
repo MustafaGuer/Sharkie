@@ -10,13 +10,7 @@ class Character extends MovableObject {
     swimAnimateVar = false;
     attackAnimateVar = false;
     barrier = false;
-    swim_sound = new Audio('../audio/vibrations.mp3');
-    slap_sound = new Audio('../audio/slap.mp3');
-    bubble_shoot = new Audio('../audio/bubbleShoot.mp3');
-    electro_zap = new Audio('../audio/electroZap.mp3');
-    poison_hurt = new Audio('../audio/punchGrunt.mp3');
     collision = false;
-    fail_sound = new Audio('../audio/failSound.mp3');
 
     constructor() {
         super().loadImage('img/1.Sharkie/1.IDLE/1.png');
@@ -32,12 +26,12 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_ELECTROSHOCK_DEAD);
         this.loadImages(this.IMAGES_POISONED_DEAD);
 
-
         this.hurtAndDeadAnimate();
         this.swimAnimate();
         this.attackAnimate();
         this.moveAnimate();
         this.animate();
+
     }
 
     swimAnimate() {
@@ -46,7 +40,6 @@ class Character extends MovableObject {
                 if (!this.isDead()) {
                     this.playAnimation(this.IMAGES_SWIM);
                     this.swimAnimateVar = true;
-                    this.swim_sound.play();
                 }
             } else {
                 this.swimAnimateVar = false;
@@ -58,13 +51,11 @@ class Character extends MovableObject {
         setInterval(() => {
             if (this.world.keyboard.D && !this.isDead()) {
                 this.playAnimation(this.IMAGES_BUBBLE_TRAP);
-                this.bubble_shoot.play();
                 this.resetAfkTime();
                 this.attackAnimateVar = true;
             } else if (this.world.keyboard.SPACE && !this.isDead()) {
                 this.playAnimation(this.IMAGES_FIN_SLAP);
                 this.resetAfkTime();
-                this.slap_sound.play();
                 this.attackAnimateVar = true;
             } else if (this.world.keyboard.F && !this.isDead()) {
                 this.playAnimation(this.IMAGES_WHALE_ATTACK);
@@ -95,21 +86,18 @@ class Character extends MovableObject {
             if (this.isDead() && this.world.jellyfish) {
                 this.playAnimation(this.IMAGES_ELECTROSHOCK_DEAD);
                 this.electroDead();
-                this.fail_sound.play();
+
                 setTimeout(() => {
                     clearInterval(animationsInterval);
                 }, 250);
             } else if (this.isDead()) {
                 this.playAnimation(this.IMAGES_POISONED_DEAD);
-                this.fail_sound.play();
                 setTimeout(() => {
                     clearInterval(animationsInterval);
                 }, 250);
             } else if (this.isHurt() && this.world.jellyfish) {
-                this.electro_zap.play();
                 this.playAnimation(this.IMAGES_ELECTRIC_SHOCK);
             } else if (this.isHurt()) {
-                this.poison_hurt.play();
                 this.playAnimation(this.IMAGES_POISONED);
             }
         }, 1000 / 60);
@@ -135,8 +123,13 @@ class Character extends MovableObject {
                 this.moveDown();
                 this.resetAfkTime();
             }
-            
-            this.world.camera_x = -this.x + 80;
+
+            if (this.checkPoint && this.otherDirection) {
+                    this.world.camera_x = -this.x + 450;
+            } else {
+                this.world.camera_x = -this.x + 80;
+            }
+
         }, 1000 / 60);
     }
 

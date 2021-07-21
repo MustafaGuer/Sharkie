@@ -4,37 +4,67 @@ let keyboard = new Keyboard();
 let startscreen;
 let start_sound = new Audio('../audio/waterSplash.mp3');
 let background_music = new Audio('../audio/bgmChill.mp3');
-
+let musicVolume = 0;
+let soundVolume = 0;
 
 function init() {
     hide('canvas');
     hide('tryAgainBtn');
+    getMusicAndSoundSettings();
     // background_music.play();
     // background_music.volume = 0.4;
     // background_music.loop = true;
+}
+
+function getMusicAndSoundSettings() {
+    document.getElementById('musicVolNumber').innerHTML = musicVolume;
+    document.getElementById('soundVolNumber').innerHTML = soundVolume;
 }
 
 function startGame() {
     show('canvas');
     hide('startScreen');
     canvas = document.getElementById('canvas');
-    world = new World(canvas, keyboard);
+    world = new World(canvas, keyboard, musicVolume / 10, soundVolume / 10);
     start_sound.play();
-    start_sound.volume = 0.3;
-    background_music.pause();
-    muteGame();
+    start_sound.volume = soundVolume / 10;
+    // background_music.pause();
 }
 
-// function showGamepad() {
-//     document.getElementById('controllerBox').classList.remove('d-none');
-// }
+function quieterMusic() {
+    if(musicVolume == 0) {
+        musicVolume = 0;
+    } else {
+        musicVolume--;
+    }
+    getMusicAndSoundSettings();
+}
 
-// function closeGamepad() {
-//     document.getElementById('controllerBox').classList.add('d-none');
-// }
+function louderMusic() {
+    if(musicVolume == 10) {
+        musicVolume = 10;
+    } else {
+        musicVolume++;
+    }
+    getMusicAndSoundSettings();
+}
 
-function muteGame() {
-    
+function quieterSound() {
+    if(soundVolume == 0) {
+        soundVolume = 0;
+    } else {
+        soundVolume--;
+    }
+    getMusicAndSoundSettings();
+}
+
+function louderSound() {
+    if(soundVolume == 10) {
+        soundVolume = 10;
+    } else {
+        soundVolume++;
+    }
+    getMusicAndSoundSettings();
 }
 
 function hide(id) {
@@ -56,7 +86,6 @@ function reset() {
 }
 
 window.addEventListener('keydown', (e) => {
-    // console.log(e.key);
     if (e.key == 'ArrowUp') {
         keyboard.UP = true;
     }

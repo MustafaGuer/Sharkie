@@ -25,15 +25,15 @@ class DrawableObject  {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
     
-    // drawFrame(ctx) {
-    //     if(this instanceof Character || this instanceof Barrier) {
-    //         ctx.beginPath();
-    //         ctx.lineWidth = '5';
-    //         ctx.strokeStyle = 'yellow';
-    //         ctx.rect(this.x, this.y, this.width, this.height);
-    //         ctx.stroke();
-    //     }
-    // }
+    drawFrame(ctx) {
+        if(this instanceof Character || this instanceof MobyDick) {
+            ctx.beginPath();
+            ctx.lineWidth = '5';
+            ctx.strokeStyle = 'yellow';
+            ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.stroke();
+        }
+    }
 
     playAnimation(images) {
         let i = this.currentImage % images.length;

@@ -1,7 +1,5 @@
 class SeparateBarrier extends MovableObject {
 
-
-
     constructor(path, x, y, width, height) {
         super().loadImage(path);
 

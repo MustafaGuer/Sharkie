@@ -1,7 +1,5 @@
 class MobyDickHealthBar extends StatusBar {
-
-
-
+    
     constructor() {
         super().loadImage('img/4. Marcadores/orange/0_  copia.png')
         this.loadImages(this.IMAGES);

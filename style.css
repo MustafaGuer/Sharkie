@@ -148,3 +148,19 @@ canvas {
     margin-right: 32px;
     cursor: pointer;
 }
+
+#volumeSettingsBox {
+    display: flex;
+}
+
+.volSettings {
+    width: 50%;
+    display: flex;
+    justify-content: space-evenly;
+    color: white;
+    font-size: 20px;
+}
+
+.volBtns {
+    cursor: pointer;
+}
