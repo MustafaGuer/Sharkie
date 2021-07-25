@@ -72,6 +72,15 @@
     <div id="canvasBox">
         <canvas id="canvas" width="720" height="480"></canvas>
         <img id="tryAgainBtn" class="btn" onclick="reset()" src="img/6.Botones/Try again/Recurso 15.png">
+        <div id="touchPadsBox">
+            <div onclick="listenForTouches()" id="right-pad" class="gamePads">R</div>
+            <div onclick="listenForTouches()" id="left-pad" class="gamePads">L</div>
+            <div onclick="listenForTouches()" id="up-pad" class="gamePads">U</div>
+            <div onclick="listenForTouches()" id="down-pad" class="gamePads">D</div>
+            <div onclick="listenForTouches()" id="slap-pad" class="gamePads">S</div>
+            <div onclick="listenForTouches()" id="bubble-pad" class="gamePads">B</div>
+            <div onclick="listenForTouches()" id="poison-bubble-pad" class="gamePads">P</div>
+        </div>
     </div>
     <div class="gamePlayBox">
         <img onclick="show('controllerBox')" class="gamePadImg" src="img/6.Botones/controller.jpg">
@@ -116,7 +125,6 @@
             </div>
         </div>
     </div>
-
 </body>
 
 </html>

@@ -1,16 +1,16 @@
 @font-face {
-    font-family: 'LuckiestGuy';
-    src: url('fonts/LuckiestGuy-Regular.ttf') format("truetype");
+    font-family: "LuckiestGuy";
+    src: url("fonts/LuckiestGuy-Regular.ttf") format("truetype");
 }
 
 body {
     background-color: lightskyblue;
-    font-family: 'LuckiestGuy';
+    font-family: "LuckiestGuy";
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-image: url('img/3. Background/Legacy/Dark/1.png');
+    background-image: url("img/3. Background/Legacy/Dark/1.png");
     margin: 0;
 }
 
@@ -56,7 +56,7 @@ canvas {
     justify-content: space-between;
     width: 720px;
     height: 50px;
-    margin-top: 32.160px;
+    margin-top: 32.16px;
     z-index: 999;
 }
 
@@ -68,7 +68,7 @@ canvas {
 .screen {
     width: 720px;
     height: 480px;
-    background: url('img/3. Background/Mesa de trabajo 1.png');
+    background: url("img/3. Background/Mesa de trabajo 1.png");
     background-size: cover;
     background-position: 80%;
     background-repeat: no-repeat;
@@ -82,7 +82,7 @@ canvas {
     width: 720px;
     height: 480px;
     margin-top: 40px;
-    background-color: rgba(0, 0, 0, 0.6); 
+    background-color: rgba(0, 0, 0, 0.6);
 }
 
 .keys {
@@ -117,7 +117,7 @@ canvas {
 }
 
 .slapAttack > img:first-of-type {
-    height: 50px; 
+    height: 50px;
     width: 150px;
 }
 
@@ -138,7 +138,7 @@ canvas {
     padding: 8px 16px;
     border-radius: 15px;
     background-color: #7fffe0;
-    color: #542385
+    color: #542385;
 }
 
 .closeRow {
@@ -169,6 +169,8 @@ canvas {
 .volBtns {
     cursor: pointer;
 }
+
+
 
 /* -----Smartphones------- */
 
@@ -248,5 +250,61 @@ canvas {
     }
     .poisonAttack {
         height: 70px !important;
+    }
+    #tryAgainBtn {
+        width: 185px;
+        height: 65px;
+        top: 55px;
+        left: 240px;
+    }
+    body {
+        overflow: hidden;
+    }
+
+    #touchPadsBox {
+        width: 100vw;
+    }
+    
+    .gamePads {
+        width: 70px;
+        height: 70px;
+        border-radius: 100%;
+        background-color: rgba(0,0,0,0.5);
+        color: white;
+        position: absolute;
+        left: 500px;
+        bottom: 70px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    #right-pad {
+        left: 160px;
+    }
+    
+    #left-pad {
+        left: 30px;
+    }
+    
+    #up-pad {
+        left: 95px;
+        bottom: 130px;
+    }
+    #down-pad {
+        left: 95px;
+        bottom: 10px;
+    }
+    #slap-pad {
+        left: 450px;
+        bottom: 10px;
+    }
+    #bubble-pad {
+        left: 510px;
+        bottom: 60px;
+    }
+    #poison-bubble-pad {
+        left: 575px;
+        bottom: 100px;
     }
 }

@@ -75,6 +75,9 @@ function fullScreen() {
     canvas.requestFullscreen();
 }
 
+function right() {
+    keyboard.RIGHT = true;
+}
 
 function reset() {
     location.reload();
@@ -133,3 +136,62 @@ window.addEventListener('keyup', (e) => {
         keyboard.ENTER = false;
     }
 })
+
+function listenForTouches() {
+    document.getElementById('right-pad').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.RIGHT = true;
+    });
+    document.getElementById('right-pad').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.RIGHT = false;
+    });
+    document.getElementById('left-pad').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.LEFT = true;
+    });
+    document.getElementById('left-pad').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.LEFT = false;
+    });
+    document.getElementById('up-pad').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.UP = true;
+    });
+    document.getElementById('up-pad').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.UP = false;
+    });
+    document.getElementById('down-pad').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.DOWN = true;
+    });
+    document.getElementById('down-pad').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.DOWN = false;
+    });
+    document.getElementById('slap-pad').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.SPACE = true;
+    });
+    document.getElementById('slap-pad').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.SPACE = false;
+    });
+    document.getElementById('bubble-pad').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.D = true;
+    });
+    document.getElementById('bubble-pad').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.D = false;
+    });
+    document.getElementById('poison-bubble-pad').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.F = true;
+    });
+    document.getElementById('poison-bubble-pad').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.F = false;
+    })
+}
