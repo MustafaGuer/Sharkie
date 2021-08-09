@@ -83,12 +83,12 @@
         </div>
     </div>
     <div class="gamePlayBox">
-        <img onclick="show('controllerBox')" class="gamePadImg" src="img/6.Botones/controller.jpg">
+        <img onclick="show('controllerBox'), hide('touchPadsBox')" class="gamePadImg" src="img/6.Botones/controller.jpg">
         <img onclick="fullScreen()" class="btn fullScreenBtn" src="img/6.Botones/Full Screen/Mesa de trabajo 7.png">
     </div>
 
     <div id="controllerBox" class="d-none">
-        <div onclick="hide('controllerBox')" class="closeRow"><span class="closeBtn">X</span></div>
+        <div onclick="hide('controllerBox'), show('touchPadsBox')" class="closeRow"><span class="closeBtn">X</span></div>
         <div class="move keys">
             <img src="img/6.Botones/Key/arrow keys.png">
             <img src="img/6.Botones/Tittles/Move title.png">
@@ -124,6 +124,10 @@
                 <span class="volBtns" onclick="louderSound()">+</span>
             </div>
         </div>
+    </div>
+
+    <div class="turnPage">
+        Please turn your Device to the Landscape Mode 
     </div>
 </body>
 
