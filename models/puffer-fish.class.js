@@ -28,9 +28,9 @@ class PufferFish extends MovableObject {
 
         setInterval(() => {
             if (this.otherDirection) {
-                this.x += this.speed;
+                this.moveRight();
             } else {
-                this.x -= this.speed;
+                this.moveLeft();
             }
         }, 50);
 

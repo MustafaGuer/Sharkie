@@ -124,11 +124,8 @@ class Character extends MovableObject {
                 this.resetAfkTime();
             }
 
-            // if (this.checkPoint && this.otherDirection) {
-            //         this.world.camera_x = -this.x + 450;
-            // } else {
-                this.world.camera_x = -this.x + 80;
-            // }
+            this.world.camera_x = -this.x + 80;
+
 
         }, 1000 / 60);
     }

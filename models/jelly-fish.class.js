@@ -23,9 +23,9 @@ class JellyFish extends MovableObject {
 
         setInterval(() => {
             if (this.otherDirection) {
-                this.y += this.speed;
+                this.moveDown();
             } else {
-                this.y -= this.speed;
+                this.moveUp();
             }
         }, 50);
 
